@@ -305,7 +305,7 @@ int main()
             if(abs(rhand.position.position.Y) > maxY) maxY = abs(rhand.position.position.Y);
             if(abs(rhand.position.position.Z) > maxZ)  maxZ  = abs(rhand.position.position.Z);
         
-            sprintf(command, "python varcolor.py %f %f %f", abs(rhand.position.position.X)/maxX, abs(rhand.position.position.Y)/maxY, abs(rhand.position.position.Z)/maxZ);
+            sprintf(command, "python ~/Desktop/life-of-the-party/LED-control/LED_control/software/scripts/varcolor.py %f %f %f", abs(rhand.position.position.X)/maxX, abs(rhand.position.position.Y)/maxY, abs(rhand.position.position.Z)/maxZ);
             system(command);
             
             printf("user %d: Right Hand at (%6.2f, %6.2f, %6.2f, %6.2f, %6.2f, %6.2f)\n",aUsers[i],
