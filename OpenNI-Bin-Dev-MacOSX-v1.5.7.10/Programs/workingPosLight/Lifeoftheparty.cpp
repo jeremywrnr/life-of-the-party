@@ -264,11 +264,21 @@ int main()
     XnSkeletonJointTransformation lhand;
     XnSkeletonJointTransformation rhand;
     
-    double maxX = 1;
-    double maxY = 1;
-    double maxZ = 1;
-    double distancechange;
+    double lastx = 0;
+    double lasty = 0;
+    double lastz = 0;
     char command[200];
+    double r = 255;
+    double g = 0;
+    double b = 0;
+    int steps = 0;
+    double vaverage;
+    double vaveragetwo = 0;
+    double vaveragethree = 0;
+    double vaveragefour = 0;
+    double vaveragefive = 0;
+    double distancechange;
+    double twochange = 0;
     
 
 
@@ -281,7 +291,7 @@ int main()
 	while (!xnOSWasKeyboardHit())
     {
         g_Context.WaitOneUpdateAll(g_UserGenerator);
-        // print the torso information for the first user already tracking
+
         nUsers=MAX_NUM_USERS;
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
@@ -289,79 +299,83 @@ int main()
         {
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
-            printf("FRAME\n");
-        /*    g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_HEAD,head);
-                printf("user %d: Head at (%6.2f,%6.2f,%6.2f)\n",aUsers[i],
-                                                                head.position.position.X,
-                                                                head.position.position.Y,
-                                                                head.position.position.Z);
-           */
             
             g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND, rhand);
             
             
+            distancechange = sqrt(pow(rhand.position.position.X - lastx, 2) + pow(rhand.position.position.Y - lasty,2) + pow(rhand.position.position.Z - lastz, 2));
             
             
-          /*  if(abs(rhand.position.position.X) > maxX) maxX = abs(rhand.position.position.X);
-            if(abs(rhand.position.position.Y) > maxY) maxY = abs(rhand.position.position.Y);
-            if(abs(rhand.position.position.Z) > maxZ)  maxZ  = abs(rhand.position.position.Z);*/
-        
-            
-          /*  sprintf(command, "python ~/Desktop/life-of-the-party/LED-control/LED_control/software/scripts/varcolor.py %f %f %f", abs(rhand.position.position.X)/maxX, abs(rhand.position.position.Y)/maxY, abs(rhand.position.position.Z)/maxZ); */
+            lastx =   rhand.position.position.X;
+            lasty =   rhand.position.position.Y;
+            lastz =   rhand.position.position.Z;
             
             
-            distancechange = sqrt(pow(rhand.position.position.x, 2) + pow(rhand.position.position.Y,2) + pow(rhand.position.position.x, 2));
-            printf("%f\n", distancechange);
+            vaverage = ((distancechange + twochange) * .001) / (.0667);
             
             
+            steps = vaverage * 10;  //Number of color steps is determined by velocity
             
-            system(command);
+            
+            //COLOR SHIFTING ALGORITHIM
+            
+            for( i = 0; i <= steps; i++){
+                
+            if(r == 255 && b != 255 && g == 0){
+                b+=1;
+            }
+            
+            if(r == 255 && b == 255 && g == 0){
+                r-=1;
+            }
+            
+            if(r != 255 && b == 255 && g == 0){
+                r-=1;
+            }
+            
+            if(r == 0 && b == 255 && g != 255){
+                g+=1;
+            }
+            
+            if(r == 0 && b == 255 && g == 255){
+                b-=1;
+            }
+            
+            if(r == 0 && b != 255 && g == 255){
+                b-=1;
+            }
+            if(r != 255 && b == 0 && g == 255){
+                r+=1;
+            }
+            if(r == 255 && b == 0 && g == 255){
+                g-=1;
+            }
+            if(r == 255 && b == 0 && g != 0 ){
+                g-=1;
+            }
+            }
            
+            //COLOR JUMPING ALGORITHIM
+            //If hand acceleration is greater than 2 m/s , complementary color jump will occur
+            
+            if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2){
+                r = 255 - r;
+                g = 255 - g;
+                b = 255 - b;
+            }
+            
+            twochange = distancechange;
+            vaveragetwo = vaverage;
+            vaveragethree = vaveragetwo;
+            vaveragefour = vaveragethree;
+            vaveragefive = vaveragefour;
+            
+            sprintf(command, "python ../../../../LED-control/LED_control/software/scripts/varcolor.py %f %f %f", r/255, g/255, b/255);
+            system(command);
             
             
-           /* printf("user %d: Right Hand at (%6.2f, %6.2f, %6.2f, %6.2f, %6.2f, %6.2f)\n",aUsers[i],
-                   rhand.position.position.X,
-                   abs(rhand.position.position.X)/maxX,
-                   rhand.position.position.Y,
-                   abs(rhand.position.position.Y)/maxY,
-                   rhand.position.position.Z,
-                   abs(rhand.position.position.Z)/maxZ
-                   );
-            */
-          
-            
-       /*     g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND,rhand);
-                printf("user %d: Right Hand at (%6.2f,%6.2f,%6.2f)\n",aUsers[i],
-                                                                rhand.position.position.X,
-                                                                rhand.position.position.Y,
-                                                                rhand.position.position.Z);
-            
-            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_LEFT_HAND,lhand);
-                printf("user %d: Left Hand at (%6.2f,%6.2f,%6.2f)\n",aUsers[i],
-                                                                lhand.position.position.X,
-                                                                lhand.position.position.Y,
-                                                                lhand.position.position.Z);
-
-            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_LEFT_FOOT,lfoot);
-            printf("user %d: Left Foot at (%6.2f,%6.2f,%6.2f)\n",aUsers[i],
-                                                                lfoot.position.position.X,
-                                                                lfoot.position.position.Y,
-                                                                lfoot.position.position.Z);
-            
-            
-            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_FOOT,rfoot);
-            printf("user %d: Right Foot at (%6.2f,%6.2f,%6.2f)\n",aUsers[i],
-                                                                rfoot.position.position.X,
-                                                                rfoot.position.position.Y,
-                                                                rfoot.position.position.Z);
-        */
         }
         
-
-        
-        
-        
-
     }
     g_scriptNode.Release();
     g_UserGenerator.Release();
