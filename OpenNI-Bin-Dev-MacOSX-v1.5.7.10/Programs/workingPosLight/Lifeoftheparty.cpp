@@ -279,6 +279,7 @@ int main()
     double vaveragefive = 0;
     double distancechange;
     double twochange = 0;
+    bool netpositivev;
     
 
 
@@ -295,7 +296,7 @@ int main()
         nUsers=MAX_NUM_USERS;
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
-        for(XnUInt16 i=0; i<nUsers; i++)
+        for(XnUInt16 i=0; i<1; i++)
         {
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
@@ -306,64 +307,108 @@ int main()
             distancechange = sqrt(pow(rhand.position.position.X - lastx, 2) + pow(rhand.position.position.Y - lasty,2) + pow(rhand.position.position.Z - lastz, 2));
             
             
+            if((rhand.position.position.X - lastx) + (rhand.position.position.Y - lasty) > 0){
+                netpositivev = TRUE;
+            }else{
+                netpositivev = FALSE;
+            }
             lastx =   rhand.position.position.X;
             lasty =   rhand.position.position.Y;
             lastz =   rhand.position.position.Z;
             
             
+            
             vaverage = ((distancechange + twochange) * .001) / (.0667);
             
             
-            steps = vaverage * 10;  //Number of color steps is determined by velocity
+            
+            steps = vaverage * 15;  //Number of color steps is determined by velocity
+            
             
             
             //COLOR SHIFTING ALGORITHIM
             
-            for( i = 0; i <= steps; i++){
+            if(netpositivev && (vaverage > 1)){
+                printf("net positive\n");
+                    for( i = 0; i <= steps; i++){
                 
-            if(r == 255 && b != 255 && g == 0){
-                b+=1;
+                        if(r == 255 && b != 255 && g == 0){
+                                b+=1;
+                            }
+                        if(r == 255 && b == 255 && g == 0){
+                                r-=1;
+                            }
+            
+                        if(r != 255 && b == 255 && g == 0){
+                                r-=1;
+                            }
+            
+                        if(r == 0 && b == 255 && g != 255){
+                                g+=1;
+                            }
+            
+                        if(r == 0 && b == 255 && g == 255){
+                                b-=1;
+                            }
+            
+                        if(r == 0 && b != 255 && g == 255){
+                                b-=1;
+                            }
+                        if(r != 255 && b == 0 && g == 255){
+                                r+=1;
+                            }
+                        if(r == 255 && b == 0 && g == 255){
+                                g-=1;
+                            }
+                        if(r == 255 && b == 0 && g != 0 ){
+                                g-=1;
+                            }
+                    }
+                
+                }
+            
+            if(!netpositivev && (vaverage > 1)){
+                printf("net negative\n");
+                for( i = 0; i <= steps; i++){
+                    
+                    
+                    if(r == 255 && b != 0 && g == 0){
+                        b-=1;
+                    }
+                    if(r == 255 && b == 0 && g != 255){
+                        g+=1;
+                    }
+            
+                    if(r != 0 && b == 0 && g == 255){
+                        r-=1;
+                    }
+                    
+                    if(r == 0 && b != 255 && g == 255){
+                        b+=1;
+                    }
+                    
+                    if(r == 0 && b == 255 && g != 0){
+                        g-=1;
+                    }
+                    
+                    if(r != 255 && b == 255 && g == 0){
+                        r+=1;
+                    }
+                    
+                    
+                }
+                
             }
             
-            if(r == 255 && b == 255 && g == 0){
-                r-=1;
-            }
-            
-            if(r != 255 && b == 255 && g == 0){
-                r-=1;
-            }
-            
-            if(r == 0 && b == 255 && g != 255){
-                g+=1;
-            }
-            
-            if(r == 0 && b == 255 && g == 255){
-                b-=1;
-            }
-            
-            if(r == 0 && b != 255 && g == 255){
-                b-=1;
-            }
-            if(r != 255 && b == 0 && g == 255){
-                r+=1;
-            }
-            if(r == 255 && b == 0 && g == 255){
-                g-=1;
-            }
-            if(r == 255 && b == 0 && g != 0 ){
-                g-=1;
-            }
-            }
-           
             //COLOR JUMPING ALGORITHIM
             //If hand acceleration is greater than 2 m/s , complementary color jump will occur
             
-            if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2){
+          if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2){
                 r = 255 - r;
                 g = 255 - g;
                 b = 255 - b;
             }
-            
+    
             twochange = distancechange;
             vaveragetwo = vaverage;
             vaveragethree = vaveragetwo;
