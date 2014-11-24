@@ -16,7 +16,9 @@ To connect to the light (MAC):
 10. click apply on the network page
 
 Test the connection:
+
     ping 192.168.0.3
 
 Test lights:
+
     python (lightscript)
