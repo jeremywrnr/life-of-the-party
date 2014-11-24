@@ -1,7 +1,7 @@
 Life of the Party
 =================
 
-Life of the Party
+LED Configuration Instructions
 
 To connect to the light (MAC):
 1. select the moodL from the wireless networks
