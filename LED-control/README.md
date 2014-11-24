@@ -19,6 +19,6 @@ Test the connection:
 
     ping 192.168.0.3
 
-Test lights:
+Test lights (rgb):
 
-    python (lightscript)
+    python varcolor 1 1 1
