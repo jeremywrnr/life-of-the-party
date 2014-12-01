@@ -251,7 +251,7 @@ int main()
     nRetVal = g_Context.StartGeneratingAll();
     CHECK_RC(nRetVal, "StartGenerating");
     
-//LIFE OF THE PARTY CODE EDITS BEGIN HERE****************************************
+//LIFE OF THE PARTY CODE BEGINS HERE****************************************
 //*******************************************************************************
 //********************************************************************************
     
@@ -414,8 +414,8 @@ int main()
             vaveragethree = vaveragetwo;
             vaveragefour = vaveragethree;
             vaveragefive = vaveragefour;
-            
-            sprintf(command, "python ../../../../LED-control/LED_control/software/scripts/varcolor.py %d %f %f %f", i + 1 , r/255, g/255, b/255);
+
+            sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", r/255, g/255, b/255);
             system(command);
             
             
