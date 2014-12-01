@@ -14,7 +14,7 @@ g=0
 b=0
 colormax = 1
 step = 1.0/256
-delay = .01
+delay = .0001
 
 while r < colormax :
     for address in addresses:
