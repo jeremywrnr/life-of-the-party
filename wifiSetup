@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+networksetup -setv6off Wi-Fi
+networksetup -setairportnetwork en0 moodL
+networksetup -setmanual Wi-Fi 192.168.0.2 255.255.255.0 192.168.0.1
