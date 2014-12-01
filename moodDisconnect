@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-networksetup -setdhcp Wi-Fi
 networksetup -setv6automatic Wi-Fi
+networksetup -setdhcp Wi-Fi
