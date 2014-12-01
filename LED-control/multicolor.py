@@ -1,6 +1,9 @@
 import sys
 import liblo
 
+# this script allows for individual light control
+# args: node name (3-5), rgb value
+
 node = "192.168.0." + sys.argv[1]
 address = liblo.Address(node,"2222")
 
