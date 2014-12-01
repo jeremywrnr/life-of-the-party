@@ -296,7 +296,7 @@ int main()
         nUsers=MAX_NUM_USERS;
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
-        for(XnUInt16 i=0; i<1; i++)
+        for(XnUInt16 i=0; i<3; i++)
         {
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
@@ -415,7 +415,7 @@ int main()
             vaveragefour = vaveragethree;
             vaveragefive = vaveragefour;
             
-            sprintf(command, "python ../../../../LED-control/LED_control/software/scripts/varcolor.py %f %f %f", r/255, g/255, b/255);
+            sprintf(command, "python ../../../../LED-control/LED_control/software/scripts/varcolor.py %d %f %f %f", i + 1 , r/255, g/255, b/255);
             system(command);
             
             
