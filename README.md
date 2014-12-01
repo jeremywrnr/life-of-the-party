@@ -3,7 +3,10 @@ Life of the Party
 
 Control the SaikoLED using the Kinect. This was a project for CSC 212,
 Human Computer Interaction, at the University of Rochester in the fall
-of 2014.
+of 2014. [team website](https://sites.google.com/a/u.rochester.edu/life-of-the-party/)
+, [class website](http://www.cs.rochester.edu/courses/212/fall2014/index.php).
+
+### Example Controls
 
 Connect to the SaikoLED network:
 
