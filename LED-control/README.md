@@ -12,7 +12,7 @@ To connect to the light (MAC):
 4. a new configuration page should pop up
 5. set IPv4 addr: 192.168.0.2
 6. set subnet mask: 255.255.255.0
-7. set router: 192.168.0.2
+7. set router: 192.168.0.1
 8. configure IPv6: link-local only
 9. click ok, exit configuration page
 10. click apply on the network page
