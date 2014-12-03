@@ -16,7 +16,6 @@ To connect to the light (MAC):
 8. configure IPv6: link-local only
 9. click ok, exit configuration page
 10. click apply on the network page
->>>>>>> 307c2dbf97005137480d7331047b76eb5432afed
 
 Test the connection:
 
