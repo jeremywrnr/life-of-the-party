@@ -3,7 +3,7 @@ import liblo
 import time
 import sys
 
-addresses = [liblo.Address("192.168.0.3","2222")]
+addresses = [liblo.Address("192.168.0.5","2222")]
 
 #int 'Number of arguments:', len(sys.argv), 'arguments.'
 #print 'Argument List:', str(sys.argv)
@@ -14,7 +14,7 @@ g=0
 b=0
 colormax = 1
 step = 1.0/256
-delay = .0001
+delay = .001
 
 while r < colormax :
     for address in addresses:

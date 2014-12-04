@@ -296,7 +296,7 @@ int main()
         nUsers=MAX_NUM_USERS;
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
-        for(XnUInt16 i=0; i<3; i++)
+        for(XnUInt16 i=0; i<1; i++)
         {
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
@@ -322,7 +322,7 @@ int main()
             
             
             
-            steps = vaverage * 15;  //Number of color steps is determined by velocity
+            steps = vaverage * 12;  //Number of color steps is determined by velocity
             
             
             
@@ -403,7 +403,7 @@ int main()
             //COLOR JUMPING ALGORITHIM
             //If hand acceleration is greater than 2 m/s , complementary color jump will occur
             
-          if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2){
+          if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
                 r = 255 - r;
                 g = 255 - g;
                 b = 255 - b;
