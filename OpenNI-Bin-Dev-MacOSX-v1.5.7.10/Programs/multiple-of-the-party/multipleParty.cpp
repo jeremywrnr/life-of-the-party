@@ -274,7 +274,7 @@ int main()
     char command[200];
     bool netpositivev;
     double distancechange;
-    double twochange = 0;
+    double secondchange = 0;
 
     double r[3];
     double g[3];
@@ -323,7 +323,7 @@ int main()
             lastz[userID] =   rhand.position.position.Z;
 
 
-            vaverage[userID][0] = ((distancechange + twochange) * .001) / (.0667);
+            vaverage[userID][0] = ((distancechange + secondchange) * .001) / (.0667);
 
 
             //Number of color steps is determined by velocity
@@ -424,7 +424,7 @@ int main()
                 avg_b += b[i]/3.0;
             }
 
-            twochange = distancechange;
+            secondchange = distancechange;
 
             // shift over all user's vel. average hist
             for(int i = 0; i <5; i++){
