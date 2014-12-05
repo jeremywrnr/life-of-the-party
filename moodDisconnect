@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-networksetup -setdhcp Wi-Fi
+networksetup -setairportpower en0 off
+networksetup -setairportpower en0 on
 networksetup -setv6automatic Wi-Fi
+networksetup -setdhcp Wi-Fi

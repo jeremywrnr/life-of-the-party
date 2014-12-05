@@ -25,7 +25,7 @@ _______  __   __  _______    _______  _______  ______    _______  __   __
  *  tracking with OpenNI and has been heavily modified. Modifications are     *
  *  noted where they occur in the source. In accordance with Apache 2.0, the  *
  *  original licensce has been left intact below.                             *
- *                                                                            *                                 
+ *                                                                            *
  *                                                                            *
  *                                                                            *
 
@@ -250,11 +250,11 @@ int main()
 
     nRetVal = g_Context.StartGeneratingAll();
     CHECK_RC(nRetVal, "StartGenerating");
-    
+
 //LIFE OF THE PARTY CODE BEGINS HERE****************************************
 //*******************************************************************************
 //********************************************************************************
-    
+
     XnUserID aUsers[MAX_NUM_USERS];
     XnUInt16 nUsers;
     XnSkeletonJointTransformation head;
@@ -263,7 +263,7 @@ int main()
     XnSkeletonJointTransformation rfoot;
     XnSkeletonJointTransformation lhand;
     XnSkeletonJointTransformation rhand;
-    
+
     double lastx = 0;
     double lasty = 0;
     double lastz = 0;
@@ -280,7 +280,7 @@ int main()
     double distancechange;
     double twochange = 0;
     bool netpositivev;
-    
+
 
 
     printf("Starting to run\n");
@@ -300,13 +300,13 @@ int main()
         {
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
-            
+
             g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND, rhand);
-            
-            
+
+
             distancechange = sqrt(pow(rhand.position.position.X - lastx, 2) + pow(rhand.position.position.Y - lasty,2) + pow(rhand.position.position.Z - lastz, 2));
-            
-            
+
+
             if((rhand.position.position.X - lastx) + (rhand.position.position.Y - lasty) > 0){
                 netpositivev = TRUE;
             }else{
@@ -315,42 +315,40 @@ int main()
             lastx =   rhand.position.position.X;
             lasty =   rhand.position.position.Y;
             lastz =   rhand.position.position.Z;
-            
-            
-            
+
+
+
             vaverage = ((distancechange + twochange) * .001) / (.0667);
-            
-            
-            
+
+              
             steps = vaverage * 12;  //Number of color steps is determined by velocity
             
-            
-            
+          
             //COLOR SHIFTING ALGORITHIM
-            
+
             if(netpositivev && (vaverage > 1)){
                 printf("net positive\n");
                     for( i = 0; i <= steps; i++){
-                
+
                         if(r == 255 && b != 255 && g == 0){
                                 b+=1;
                             }
                         if(r == 255 && b == 255 && g == 0){
                                 r-=1;
                             }
-            
+
                         if(r != 255 && b == 255 && g == 0){
                                 r-=1;
                             }
-            
+
                         if(r == 0 && b == 255 && g != 255){
                                 g+=1;
                             }
-            
+
                         if(r == 0 && b == 255 && g == 255){
                                 b-=1;
                             }
-            
+
                         if(r == 0 && b != 255 && g == 255){
                                 b-=1;
                             }
@@ -364,51 +362,52 @@ int main()
                                 g-=1;
                             }
                     }
-                
+
                 }
-            
+
             if(!netpositivev && (vaverage > 1)){
                 printf("net negative\n");
                 for( i = 0; i <= steps; i++){
-                    
-                    
+
+
                     if(r == 255 && b != 0 && g == 0){
                         b-=1;
                     }
                     if(r == 255 && b == 0 && g != 255){
                         g+=1;
                     }
-            
+
                     if(r != 0 && b == 0 && g == 255){
                         r-=1;
                     }
-                    
+
                     if(r == 0 && b != 255 && g == 255){
                         b+=1;
                     }
-                    
+
                     if(r == 0 && b == 255 && g != 0){
                         g-=1;
                     }
-                    
+
                     if(r != 255 && b == 255 && g == 0){
                         r+=1;
                     }
-                    
-                    
+
+
                 }
-                
+
             }
-            
+
             //COLOR JUMPING ALGORITHIM
             //If hand acceleration is greater than 2 m/s , complementary color jump will occur
-            
-          if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
+
+            if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
+
                 r = 255 - r;
                 g = 255 - g;
                 b = 255 - b;
             }
-    
+
             twochange = distancechange;
             vaveragetwo = vaverage;
             vaveragethree = vaveragetwo;
@@ -417,40 +416,13 @@ int main()
 
             sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", r/255, g/255, b/255);
             system(command);
-            
-            
+
+
         }
-        
+
     }
     g_scriptNode.Release();
     g_UserGenerator.Release();
     g_Context.Release();
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
