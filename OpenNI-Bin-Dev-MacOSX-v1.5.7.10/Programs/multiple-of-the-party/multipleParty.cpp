@@ -278,12 +278,12 @@ int main()
     double secondchange = 0;
     double avg_b, avg_g, avg_r = 0;
 
-    double r[3];
-    double g[3];
-    double b[3];
-    double lastx[3];
-    double lasty[3];
-    double lastz[3];
+    double r[3] = {0,0,0};
+    double g[3] = {0,0,0};
+    double b[3] = {0,0,0};
+    double lastx[3] = {0,0,0};
+    double lasty[3] = {0,0,0};
+    double lastz[3] = {0,0,0};
 
     double vaverage[3][5];
 
@@ -418,17 +418,13 @@ int main()
                }
                */
 
-            for (int i = 0; i <3; i++) {
                 avg_r += r[userID]/3.0;
                 avg_g += g[userID]/3.0;
                 avg_b += b[userID]/3.0;
-            }
 
 
             // shift over all user's vel. average hist
-            for(int i = 0; i <5; i++){
-                vaverage[userID][i + 1] = vaverage[userID][i];
-            }
+            for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
 
             sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
             system(command);
@@ -436,7 +432,8 @@ int main()
 
         } // end user for loop
 
-    }
+    }// end of kinect loop
+
     g_scriptNode.Release();
     g_UserGenerator.Release();
     g_Context.Release();
