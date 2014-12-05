@@ -192,6 +192,7 @@ double b[4] = {0,0,0,0};
 double lastx[4] = {0,0,0,0};
 double lasty[4] = {0,0,0,0};
 double lastz[4] = {0,0,0,0};
+// END life of the color initialization
 
 int main()
 {
@@ -413,7 +414,8 @@ int main()
             avg_g += g[userID]/nUsers;
             avg_b += b[userID]/nUsers;
 
-            printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
+            printf("rgb: %f %f %f\n", r[userID], g[userID], b[userID]);
+            //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
 
             // shift over all user's vel. average hist
             for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
