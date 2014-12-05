@@ -314,7 +314,7 @@ int main()
                     (rhand.position.position.Y - lasty[userID]) > 0){
                 netpositivev[userID] = TRUE;
             }else{
-                netpositivev[user       ] = FALSE;
+                netpositivev[userID] = FALSE;
             }
 
             lastx[userID] = rhand.position.position.X;
