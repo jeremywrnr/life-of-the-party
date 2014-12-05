@@ -181,17 +181,18 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 }
 
 // life of the color initialization
-double distancechange[4];
-double secondchange[4];
 double avg_r = 0;
 double avg_g = 0;
 double avg_b = 0;
-double r[4] = {0,0,0,0};
-double g[4] = {0,0,0,0};
-double b[4] = {0,0,0,0};
-double lastx[4] = {0,0,0,0};
-double lasty[4] = {0,0,0,0};
-double lastz[4] = {0,0,0,0};
+double r[4];
+double g[4];
+double b[4];
+double lastx[4];
+double lasty[4];
+double lastz[4];
+double distancechange[4];
+double secondchange[4];
+double vaverage[4][5];
 // END life of the color initialization
 
 int main()
@@ -287,7 +288,6 @@ int main()
     char command[200];
     bool netpositivev[4];
     double STEPCONST = 15.0;
-    double vaverage[4][5];
 
     printf("Starting to run\n");
     if(g_bNeedPose) printf("Assume calibration pose\n");
@@ -414,7 +414,8 @@ int main()
             avg_g += g[userID]/nUsers;
             avg_b += b[userID]/nUsers;
 
-            printf("rgb: %f %f %f\n", r[userID], g[userID], b[userID]);
+            // print out user colors
+            rintf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
             //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
 
             // shift over all user's vel. average hist
