@@ -183,15 +183,17 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 // life of the color initialization
 double distancechange[4];
 double secondchange[4];
+double avg_r = 0;
+double avg_g = 0;
+double avg_b = 0;
 double r[4] = {0,0,0,0};
 double g[4] = {0,0,0,0};
 double b[4] = {0,0,0,0};
 double lastx[4] = {0,0,0,0};
 double lasty[4] = {0,0,0,0};
 double lastz[4] = {0,0,0,0};
-double avg_b, avg_g, avg_r = 0;
 
-int main()
+main()
 {
     XnStatus nRetVal = XN_STATUS_OK;
     xn::EnumerationErrors errors;
@@ -282,15 +284,9 @@ int main()
 
     int steps = 0;
     char command[200];
-
-    int STEPCONST = 12;
-    bool netpositivev;
-
-
-
+    int STEPCONST = 15;
+    bool netpositivev[4];
     double vaverage[4][5];
-
-
 
     printf("Starting to run\n");
     if(g_bNeedPose) printf("Assume calibration pose\n");
@@ -305,11 +301,8 @@ int main()
         //for(XnUInt16 userID=0; userID<3; userID++)
         for(XnUInt16 userID=0; userID < nUsers; userID++)
         {
-            if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[userID])==FALSE)
-                continue;
-
+            if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[userID])==FALSE) continue;
             g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[userID],XN_SKEL_RIGHT_HAND, rhand);
-
 
             // relative distance formula
             distancechange[userID] = sqrt(pow(rhand.position.position.X - lastx[userID], 2)
@@ -319,14 +312,14 @@ int main()
 
             if((rhand.position.position.X - lastx[userID]) +
                     (rhand.position.position.Y - lasty[userID]) > 0){
-                netpositivev = TRUE;
+                netpositivev[userID] = TRUE;
             }else{
-                netpositivev = FALSE;
+                netpositivev[user       ] = FALSE;
             }
 
-            lastx[userID] =   rhand.position.position.X;
-            lasty[userID] =   rhand.position.position.Y;
-            lastz[userID] =   rhand.position.position.Z;
+            lastx[userID] = rhand.position.position.X;
+            lasty[userID] = rhand.position.position.Y;
+            lastz[userID] = rhand.position.position.Z;
 
 
             // calibrate user speed
@@ -335,8 +328,8 @@ int main()
 
 
             // relative position debugging
-            printf("distance change: %f %d\n", distancechange[userID], userID);
-            printf("vavergage change: %f %d\n", vaverage[userID][0], userID);
+            //printf("distance change: %f %d\n", distancechange[userID], userID);
+            //printf("vavergage change: %f %d\n", vaverage[userID][0], userID);
 
             //Number of color steps is determined by velocity
             steps = vaverage[userID][0] * STEPCONST;
@@ -344,7 +337,7 @@ int main()
 
             //COLOR SHIFTING ALGORITHIM
 
-            if(netpositivev && (vaverage[userID][0] > 1)){
+            if(netpositivev[user        ] && (vaverage[userID][0] > 1)){
                 printf("net positive\n");
                 for( int i = 0; i <= steps; i++){
 
@@ -378,7 +371,7 @@ int main()
                 }
             }
 
-            if(!netpositivev && (vaverage[userID][0] > 1)){
+            if(!netpositivev[user       ] && (vaverage[userID][0] > 1)){
                 printf("net negative\n");
                 for( int i = 0; i <= steps; i++){
 
@@ -408,20 +401,19 @@ int main()
             //jump will occur
 
             /*
-               if(vaverage - (vaveragetwo + vaveragethree + vaveragefour +
-               vaveragefive)/4 > 2.5){
+               if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
                r = 255 - r;
                g = 255 - g;
                b = 255 - b;
                }
                */
 
-            // contribute a third to the overall light scheme
+            // contribute a 1/nUsers to the overall light scheme
             avg_r += r[userID]/nUsers;
             avg_g += g[userID]/nUsers;
             avg_b += b[userID]/nUsers;
 
-            printf("rgb: %f %f %f\n", avg_r/255, avg_g/255, avg_b/255);
+            printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
 
             // shift over all user's vel. average hist
             for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
