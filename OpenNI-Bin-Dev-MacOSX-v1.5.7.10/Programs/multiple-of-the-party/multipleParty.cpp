@@ -299,7 +299,8 @@ int main()
         nUsers=MAX_NUM_USERS;
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
-        for(XnUInt16 userID=0; userID<3; userID++)
+        //for(XnUInt16 userID=0; userID<3; userID++)
+        for(int userID=0; userID<3; userID++)
         {
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[userID])==FALSE)
                 continue;
@@ -312,7 +313,6 @@ int main()
                     + pow(rhand.position.position.Y - lasty[userID],2) +
                     pow(rhand.position.position.Z - lastz[userID], 2));
 
-            secondchange = distancechange;
 
             if((rhand.position.position.X - lastx[userID]) +
                     (rhand.position.position.Y - lasty[userID]) > 0){
@@ -327,6 +327,7 @@ int main()
 
 
             vaverage[userID][0] = ((distancechange + secondchange) * .001) / (.0667);
+            secondchange = distancechange;
 
 
             //Number of color steps is determined by velocity
