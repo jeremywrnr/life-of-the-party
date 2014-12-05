@@ -275,7 +275,7 @@ int main()
     char command[200];
     bool netpositivev;
     double distancechange;
-    double secondchange = 0;
+    double secondchange0;
     double avg_b, avg_g, avg_r = 0;
 
     double r[3] = {0,0,0};
@@ -346,15 +346,12 @@ int main()
                     if(r[userID]== 255 && b[userID]== 255 && g[userID]== 0){
                         r[userID]-=1;
                     }
-
                     if(r[userID]!= 255 && b[userID]== 255 && g[userID]== 0){
                         r[userID]-=1;
                     }
-
                     if(r[userID]== 0 && b[userID]== 255 && g[userID]!= 255){
                         g[userID]+=1;
                     }
-
                     if(r[userID]== 0 && b[userID]== 255 && g[userID]== 255){
                         b[userID]-=1;
                     }
@@ -371,7 +368,6 @@ int main()
                         g[userID]-=1;
                     }
                 }
-
             }
 
             if(!netpositivev && (vaverage[userID][0] > 1)){
@@ -381,29 +377,22 @@ int main()
                     if(r[userID]== 255 && b[userID]!= 0 && g[userID]== 0){
                         b[userID]-=1;
                     }
-
                     if(r[userID]== 255 && b[userID]== 0 && g[userID]!= 255){
                         g[userID]+=1;
                     }
-
                     if(r[userID]!= 0 && b[userID]== 0 && g[userID]== 255){
                         r[userID]-=1;
                     }
-
                     if(r[userID]== 0 && b[userID]!= 255 && g[userID]== 255){
                         b[userID]+=1;
                     }
-
                     if(r[userID]== 0 && b[userID]== 255 && g[userID]!= 0){
                         g[userID]-=1;
                     }
-
                     if(r[userID]!= 255 && b[userID]== 255 && g[userID]== 0){
                         r[userID]+=1;
                     }
-
                 }
-
             }
 
             //COLOR JUMPING ALGORITHIM
@@ -428,8 +417,8 @@ int main()
             for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
 
 
-
         } // end user for loop
+
 
         sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
         system(command);
