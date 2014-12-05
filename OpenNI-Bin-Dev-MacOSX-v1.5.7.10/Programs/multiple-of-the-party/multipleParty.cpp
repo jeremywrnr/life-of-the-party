@@ -415,7 +415,7 @@ int main()
             avg_b += b[userID]/nUsers;
 
             // print out user colors
-            rintf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
+            printf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
             //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
 
             // shift over all user's vel. average hist
