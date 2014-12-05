@@ -282,7 +282,8 @@ int main()
     double lastx[3];
     double lasty[3];
     double lastz[3];
-    double vaverage[5];
+
+    double vaverage[3][5];
 
 
 

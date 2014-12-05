@@ -23,6 +23,10 @@ Change one light manually (node in [3,4,5], rgb in [0,1]):
 
     python ./LED-control/multicolor.py node r g b
 
+Control the lights with the kinect:
+
+    ./OpenNI-Bin-Dev-MacOSX-v1.5.7.10/Programs/Bin/x64-Release/Lifeoftheparty
+
 Disconnect from the SaikoLED network:
 
     sudo ./moodDisconnect
