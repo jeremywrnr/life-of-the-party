@@ -342,31 +342,31 @@ int main()
                 printf("net positive\n");
                 for( int i = 0; i <= steps; i++){
 
-                    if(r[userID]== 255 && b[userID]!= 255 && g[userID]== 0){
+                    if(r[userID]== 255.0 && b[userID]!= 255.0 && g[userID]== 0.0){
                         b[userID]+=1;
                     }
-                    if(r[userID]== 255 && b[userID]== 255 && g[userID]== 0){
+                    if(r[userID]== 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
                         r[userID]-=1;
                     }
-                    if(r[userID]!= 255 && b[userID]== 255 && g[userID]== 0){
+                    if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
                         r[userID]-=1;
                     }
-                    if(r[userID]== 0 && b[userID]== 255 && g[userID]!= 255){
+                    if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 255.0){
                         g[userID]+=1;
                     }
-                    if(r[userID]== 0 && b[userID]== 255 && g[userID]== 255){
+                    if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]== 255.0){
                         b[userID]-=1;
                     }
-                    if(r[userID]== 0 && b[userID]!= 255 && g[userID]== 255){
+                    if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
                         b[userID]-=1;
                     }
-                    if(r[userID]!= 255 && b[userID]== 0 && g[userID]== 255){
+                    if(r[userID]!= 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
                         r[userID]+=1;
                     }
-                    if(r[userID]== 255 && b[userID]== 0 && g[userID]== 255){
+                    if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
                         g[userID]-=1;
                     }
-                    if(r[userID]== 255 && b[userID]== 0 && g[userID]!= 0 ){
+                    if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 0.0 ){
                         g[userID]-=1;
                     }
                 }
@@ -376,22 +376,22 @@ int main()
                 printf("net negative\n");
                 for( int i = 0; i <= steps; i++){
 
-                    if(r[userID]== 255 && b[userID]!= 0 && g[userID]== 0){
+                    if(r[userID]== 255.0 && b[userID]!= 0.0 && g[userID]== 0.0){
                         b[userID]-=1;
                     }
-                    if(r[userID]== 255 && b[userID]== 0 && g[userID]!= 255){
+                    if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 255.0){
                         g[userID]+=1;
                     }
-                    if(r[userID]!= 0 && b[userID]== 0 && g[userID]== 255){
+                    if(r[userID]!= 0.0 && b[userID]== 0.0 && g[userID]== 255.0){
                         r[userID]-=1;
                     }
-                    if(r[userID]== 0 && b[userID]!= 255 && g[userID]== 255){
+                    if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
                         b[userID]+=1;
                     }
-                    if(r[userID]== 0 && b[userID]== 255 && g[userID]!= 0){
+                    if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 0.0){
                         g[userID]-=1;
                     }
-                    if(r[userID]!= 255 && b[userID]== 255 && g[userID]== 0){
+                    if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
                         r[userID]+=1;
                     }
                 }
