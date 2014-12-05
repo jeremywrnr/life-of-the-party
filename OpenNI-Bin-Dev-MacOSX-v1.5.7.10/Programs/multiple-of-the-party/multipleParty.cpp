@@ -343,31 +343,31 @@ int main()
                 for( int i = 0; i <= steps; i++){
 
                     if(r[userID]== 255.0 && b[userID]!= 255.0 && g[userID]== 0.0){
-                        b[userID]+=1;
+                        b[userID]+=1.0;
                     }
                     if(r[userID]== 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                        r[userID]-=1;
+                        r[userID]-=1.0;
                     }
                     if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                        r[userID]-=1;
+                        r[userID]-=1.0;
                     }
                     if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 255.0){
-                        g[userID]+=1;
+                        g[userID]+=1.0;
                     }
                     if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]== 255.0){
-                        b[userID]-=1;
+                        b[userID]-=1.0;
                     }
                     if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
-                        b[userID]-=1;
+                        b[userID]-=1.0;
                     }
                     if(r[userID]!= 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                        r[userID]+=1;
+                        r[userID]+=1.0;
                     }
                     if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                        g[userID]-=1;
+                        g[userID]-=1.0;
                     }
                     if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 0.0 ){
-                        g[userID]-=1;
+                        g[userID]-=1.0;
                     }
                 }
             }
@@ -377,22 +377,22 @@ int main()
                 for( int i = 0; i <= steps; i++){
 
                     if(r[userID]== 255.0 && b[userID]!= 0.0 && g[userID]== 0.0){
-                        b[userID]-=1;
+                        b[userID]-=1.0;
                     }
                     if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 255.0){
-                        g[userID]+=1;
+                        g[userID]+=1.0;
                     }
                     if(r[userID]!= 0.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                        r[userID]-=1;
+                        r[userID]-=1.0;
                     }
                     if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
-                        b[userID]+=1;
+                        b[userID]+=1.0;
                     }
                     if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 0.0){
-                        g[userID]-=1;
+                        g[userID]-=1.0;
                     }
                     if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                        r[userID]+=1;
+                        r[userID]+=1.0;
                     }
                 }
             }
