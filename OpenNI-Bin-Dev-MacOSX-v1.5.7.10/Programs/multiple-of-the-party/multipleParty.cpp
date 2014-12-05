@@ -329,12 +329,14 @@ int main()
             lastz[userID] =   rhand.position.position.Z;
 
 
+            // calibrate user speed
             vaverage[userID][0] = ((distancechange[userID] + secondchange[userID]) * .001) / (.0667);
             secondchange[userID] = distancechange[userID];
 
 
-            // relative position
+            // relative position debugging
             printf("distance change: %f %d\n", distancechange[userID], userID);
+            printf("vavergage change: %f %d\n", vaverage[userID], userID);
 
             //Number of color steps is determined by velocity
             steps = vaverage[userID][0] * STEPCONST;
@@ -419,7 +421,7 @@ int main()
             avg_g += g[userID]/nUsers;
             avg_b += b[userID]/nUsers;
 
-            printf("rgb: %f %f %f\n", avg_r/255.0, avg_g/255.0, avg_b/255.0);
+            printf("rgb: %f %f %f\n", avg_r/255, avg_g/255, avg_b/255);
 
             // shift over all user's vel. average hist
             for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
@@ -431,7 +433,7 @@ int main()
 
     }// end of kinect loop
 
-    sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255.0, avg_g/255.0, avg_b/255.0);
+    sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
     system(command);
 
     g_scriptNode.Release();
