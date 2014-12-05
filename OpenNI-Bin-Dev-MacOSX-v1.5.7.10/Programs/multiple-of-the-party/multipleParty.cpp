@@ -189,6 +189,7 @@ double b[4] = {0,0,0,0};
 double lastx[4] = {0,0,0,0};
 double lasty[4] = {0,0,0,0};
 double lastz[4] = {0,0,0,0};
+double avg_b, avg_g, avg_r = 0;
 
 int main()
 {
@@ -285,7 +286,6 @@ int main()
     int STEPCONST = 12;
     bool netpositivev;
 
-    double avg_b, avg_g, avg_r = 0;
 
 
     double vaverage[4][5];
