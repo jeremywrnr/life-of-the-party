@@ -413,6 +413,7 @@ int main()
             avg_g += g[userID]/3.0;
             avg_b += b[userID]/3.0;
 
+            printf("rgb: %f %f %f", avg_r/255, avg_g/255, avg_b/255);
 
             // shift over all user's vel. average hist
             for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
@@ -420,6 +421,9 @@ int main()
             // update only after averaging first user
             // if( userID == 0){}
             sprintf(command, "python ../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+            printf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+    ///Users/Justin/desktop/life-of-the-party/LED-control
+
             system(command);
 
         } // end user for loop
