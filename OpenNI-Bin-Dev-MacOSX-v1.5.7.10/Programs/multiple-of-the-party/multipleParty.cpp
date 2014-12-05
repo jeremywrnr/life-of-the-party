@@ -285,8 +285,8 @@ int main()
 
     int steps = 0;
     char command[200];
-    int STEPCONST = 15;
     bool netpositivev[4];
+    double STEPCONST = 15.0;
     double vaverage[4][5];
 
     printf("Starting to run\n");
