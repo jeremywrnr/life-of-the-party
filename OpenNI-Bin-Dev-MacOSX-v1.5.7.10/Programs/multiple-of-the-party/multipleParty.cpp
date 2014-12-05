@@ -139,7 +139,7 @@ void XN_CALLBACK_TYPE UserCalibration_CalibrationStart(xn::SkeletonCapability&
 
 
 
-void XN_CALLBACK_TYPE
+    void XN_CALLBACK_TYPE
 UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
         XnUserID nId, XnCalibrationStatus eStatus, void* /*pCookie*/)
 {
@@ -175,10 +175,10 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 
 #define CHECK_RC(nRetVal, what)					    \
     if (nRetVal != XN_STATUS_OK)				    \
-    {								    \
-        printf("%s failed: %s\n", what, xnGetStatusString(nRetVal));    \
-        return nRetVal;						    \
-    }
+{								    \
+    printf("%s failed: %s\n", what, xnGetStatusString(nRetVal));    \
+    return nRetVal;						    \
+}
 
 int main()
 {
@@ -256,7 +256,8 @@ int main()
     nRetVal = g_Context.StartGeneratingAll();
     CHECK_RC(nRetVal, "StartGenerating");
 
-    //LIFE OF THE PARTY CODE BEGINS HERE****************************************
+    //LIFE OF THE PARTY CODE BEGINS
+    //HERE****************************************
     //*******************************************************************************
     //********************************************************************************
 
@@ -269,22 +270,19 @@ int main()
     XnSkeletonJointTransformation lhand;
     XnSkeletonJointTransformation rhand;
 
-    double lastx[3];
-    double lasty[3];
-    double lastz[3];
+    int steps = 0;
     char command[200];
+    bool netpositivev;
+    double distancechange;
+    double twochange = 0;
+
     double r[3];
     double g[3];
     double b[3];
-    int steps = 0;
-    double vaverage;
-    double vaveragetwo = 0;
-    double vaveragethree = 0;
-    double vaveragefour = 0;
-    double vaveragefive = 0;
-    double distancechange;
-    double twochange = 0;
-    bool netpositivev;
+    double lastx[3];
+    double lasty[3];
+    double lastz[3];
+    double vaverage[5];
 
 
 
