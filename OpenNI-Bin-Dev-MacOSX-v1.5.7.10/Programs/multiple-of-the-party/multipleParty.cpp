@@ -419,7 +419,7 @@ int main()
 
             // update only after averaging first user
             // if( userID == 0){}
-            sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+            sprintf(command, "python ../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
             system(command);
 
         } // end user for loop
