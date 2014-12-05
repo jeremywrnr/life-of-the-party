@@ -334,7 +334,7 @@ int main()
 
             if(netpositivev && (vaverage[userID][0] > 1)){
                 printf("net positive\n");
-                for( i = 0; i <= steps; i++){
+                for( int i = 0; i <= steps; i++){
 
                     if(r[i]== 255 && b[i]!= 255 && g[i]== 0){
                         b[i]+=1;
@@ -371,9 +371,9 @@ int main()
 
             }
 
-            if(!netpositivev && (vaverage[i][0] > 1)){
+            if(!netpositivev && (vaverage[userID][0] > 1)){
                 printf("net negative\n");
-                for( i = 0; i <= steps; i++){
+                for( int i = 0; i <= steps; i++){
 
 
                     if(r[i]== 255 && b[i]!= 0 && g[i]== 0){
