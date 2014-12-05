@@ -282,7 +282,8 @@ int main()
     double lastx[3];
     double lasty[3];
     double lastz[3];
-    double vaverage[5];
+
+    double vaverage[3][5];
 
 
 
@@ -296,42 +297,42 @@ int main()
         nUsers=MAX_NUM_USERS;
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
-        for(XnUInt16 i=0; i<3; i++)
+        for(XnUInt16 userID=0; userID<3; userID++)
         {
-            if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
+            if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[userID])==FALSE)
                 continue;
 
-            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND, rhand);
+            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[userID],XN_SKEL_RIGHT_HAND, rhand);
 
 
             // relative distance formula
-            distancechange = sqrt(pow(rhand.position.position.X - lastx[i], 2)
-                    + pow(rhand.position.position.Y - lasty[i],2) +
-                    pow(rhand.position.position.Z - lastz[i], 2));
+            distancechange = sqrt(pow(rhand.position.position.X - lastx[userID], 2)
+                    + pow(rhand.position.position.Y - lasty[userID],2) +
+                    pow(rhand.position.position.Z - lastz[userID], 2));
 
 
-            if((rhand.position.position.X - lastx[i]) +
-                    (rhand.position.position.Y - lasty[i]) > 0){
+            if((rhand.position.position.X - lastx[userID]) +
+                    (rhand.position.position.Y - lasty[userID]) > 0){
                 netpositivev = TRUE;
             }else{
                 netpositivev = FALSE;
             }
 
-            lastx[i] =   rhand.position.position.X;
-            lasty[i] =   rhand.position.position.Y;
-            lastz[i] =   rhand.position.position.Z;
+            lastx[userID] =   rhand.position.position.X;
+            lasty[userID] =   rhand.position.position.Y;
+            lastz[userID] =   rhand.position.position.Z;
 
 
-            vaverage[0] = ((distancechange + twochange) * .001) / (.0667);
+            vaverage[userID][0] = ((distancechange + twochange) * .001) / (.0667);
 
 
             //Number of color steps is determined by velocity
-            steps = vaverage[0] * 12;
+            steps = vaverage[userID][0] * 12;
 
 
             //COLOR SHIFTING ALGORITHIM
 
-            if(netpositivev && (vaverage[0] > 1)){
+            if(netpositivev && (vaverage[userID][0] > 1)){
                 printf("net positive\n");
                 for( i = 0; i <= steps; i++){
 
@@ -363,14 +364,14 @@ int main()
                     if(r[i]== 255 && b[i]== 0 && g[i]== 255){
                         g[i]-=1;
                     }
-                    if(r[i]== 255 && b[i]== 0 && g[i]!= 0 ){
+                if(r[i]== 255 && b[i]== 0 && g[i]!= 0 ){
                         g[i]-=1;
                     }
                 }
 
             }
 
-            if(!netpositivev && (vaverage[0] > 1)){
+            if(!netpositivev && (vaverage[i][0] > 1)){
                 printf("net negative\n");
                 for( i = 0; i <= steps; i++){
 
@@ -424,8 +425,10 @@ int main()
             }
 
             twochange = distancechange;
+
+            // shift over all user's vel. average hist
             for(int i = 0; i <5; i++){
-                vaverage[i + 1] = vaverage[i];
+                vaverage[userID][i + 1] = vaverage[userID][i];
             }
 
             sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
