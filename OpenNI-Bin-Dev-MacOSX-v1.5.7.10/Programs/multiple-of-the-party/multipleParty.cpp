@@ -312,7 +312,7 @@ int main()
 
 
             // relative distance formula
-            distancechange = sqrt(pow(rhand.position.position.X - lastx[userID], 2)
+            distancechange[userID] = sqrt(pow(rhand.position.position.X - lastx[userID], 2)
                     + pow(rhand.position.position.Y - lasty[userID],2) +
                     pow(rhand.position.position.Z - lastz[userID], 2));
 
@@ -329,12 +329,12 @@ int main()
             lastz[userID] =   rhand.position.position.Z;
 
 
-            vaverage[userID][0] = ((distancechange + secondchange) * .001) / (.0667);
-            secondchange = distancechange;
+            vaverage[userID][0] = ((distancechange[userID] + secondchange[userID]) * .001) / (.0667);
+            secondchange[userID] = distancechange[userID];
 
 
             // relative position
-            printf("distance change: %f %f\n", distancechange, userID);
+            printf("distance change: %f %d\n", distancechange[userID], userID);
 
             //Number of color steps is determined by velocity
             steps = vaverage[userID][0] * STEPCONST;
