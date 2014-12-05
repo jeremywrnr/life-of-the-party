@@ -270,10 +270,13 @@ int main()
     XnSkeletonJointTransformation rhand;
 
     int steps = 0;
+    int STEPCONST = 12;
+
     char command[200];
     bool netpositivev;
     double distancechange;
     double secondchange = 0;
+    double avg_b, avg_g, avg_r = 0;
 
     double r[3];
     double g[3];
@@ -309,6 +312,7 @@ int main()
                     + pow(rhand.position.position.Y - lasty[userID],2) +
                     pow(rhand.position.position.Z - lastz[userID], 2));
 
+            secondchange = distancechange;
 
             if((rhand.position.position.X - lastx[userID]) +
                     (rhand.position.position.Y - lasty[userID]) > 0){
@@ -326,7 +330,7 @@ int main()
 
 
             //Number of color steps is determined by velocity
-            steps = vaverage[userID][0] * 12;
+            steps = vaverage[userID][0] * STEPCONST;
 
 
             //COLOR SHIFTING ALGORITHIM
@@ -335,36 +339,35 @@ int main()
                 printf("net positive\n");
                 for( int i = 0; i <= steps; i++){
 
-                    if(r[i]== 255 && b[i]!= 255 && g[i]== 0){
-                        b[i]+=1;
+                    if(r[userID]== 255 && b[userID]!= 255 && g[userID]== 0){
+                        b[userID]+=1;
                     }
-                    if(r[i]== 255 && b[i]== 255 && g[i]== 0){
-                        r[i]-=1;
-                    }
-
-                    if(r[i]!= 255 && b[i]== 255 && g[i]== 0){
-                        r[i]-=1;
+                    if(r[userID]== 255 && b[userID]== 255 && g[userID]== 0){
+                        r[userID]-=1;
                     }
 
-                    if(r[i]== 0 && b[i]== 255 && g[i]!= 255){
-                        g[i]+=1;
+                    if(r[userID]!= 255 && b[userID]== 255 && g[userID]== 0){
+                        r[userID]-=1;
                     }
 
-                    if(r[i]== 0 && b[i]== 255 && g[i]== 255){
-                        b[i]-=1;
+                    if(r[userID]== 0 && b[userID]== 255 && g[userID]!= 255){
+                        g[userID]+=1;
                     }
 
-                    if(r[i]== 0 && b[i]!= 255 && g[i]== 255){
-                        b[i]-=1;
+                    if(r[userID]== 0 && b[userID]== 255 && g[userID]== 255){
+                        b[userID]-=1;
                     }
-                    if(r[i]!= 255 && b[i]== 0 && g[i]== 255){
-                        r[i]+=1;
+                    if(r[userID]== 0 && b[userID]!= 255 && g[userID]== 255){
+                        b[userID]-=1;
                     }
-                    if(r[i]== 255 && b[i]== 0 && g[i]== 255){
-                        g[i]-=1;
+                    if(r[userID]!= 255 && b[userID]== 0 && g[userID]== 255){
+                        r[userID]+=1;
                     }
-                if(r[i]== 255 && b[i]== 0 && g[i]!= 0 ){
-                        g[i]-=1;
+                    if(r[userID]== 255 && b[userID]== 0 && g[userID]== 255){
+                        g[userID]-=1;
+                    }
+                if(r[userID]== 255 && b[userID]== 0 && g[userID]!= 0 ){
+                        g[userID]-=1;
                     }
                 }
 
@@ -374,30 +377,29 @@ int main()
                 printf("net negative\n");
                 for( int i = 0; i <= steps; i++){
 
-
-                    if(r[i]== 255 && b[i]!= 0 && g[i]== 0){
-                        b[i]-=1;
-                    }
-                    if(r[i]== 255 && b[i]== 0 && g[i]!= 255){
-                        g[i]+=1;
+                    if(r[userID]== 255 && b[userID]!= 0 && g[userID]== 0){
+                        b[userID]-=1;
                     }
 
-                    if(r[i]!= 0 && b[i]== 0 && g[i]== 255){
-                        r[i]-=1;
+                    if(r[userID]== 255 && b[userID]== 0 && g[userID]!= 255){
+                        g[userID]+=1;
                     }
 
-                    if(r[i]== 0 && b[i]!= 255 && g[i]== 255){
-                        b[i]+=1;
+                    if(r[userID]!= 0 && b[userID]== 0 && g[userID]== 255){
+                        r[userID]-=1;
                     }
 
-                    if(r[i]== 0 && b[i]== 255 && g[i]!= 0){
-                        g[i]-=1;
+                    if(r[userID]== 0 && b[userID]!= 255 && g[userID]== 255){
+                        b[userID]+=1;
                     }
 
-                    if(r[i]!= 255 && b[i]== 255 && g[i]== 0){
-                        r[i]+=1;
+                    if(r[userID]== 0 && b[userID]== 255 && g[userID]!= 0){
+                        g[userID]-=1;
                     }
 
+                    if(r[userID]!= 255 && b[userID]== 255 && g[userID]== 0){
+                        r[userID]+=1;
+                    }
 
                 }
 
@@ -416,14 +418,12 @@ int main()
                }
                */
 
-            double avg_b, avg_g, avg_r;
             for (int i = 0; i <3; i++) {
-                avg_r += r[i]/3.0;
-                avg_g += g[i]/3.0;
-                avg_b += b[i]/3.0;
+                avg_r += r[userID]/3.0;
+                avg_g += g[userID]/3.0;
+                avg_b += b[userID]/3.0;
             }
 
-            secondchange = distancechange;
 
             // shift over all user's vel. average hist
             for(int i = 0; i <5; i++){
