@@ -287,10 +287,7 @@ int main()
 
 
     printf("Starting to run\n");
-    if(g_bNeedPose)
-    {
-        printf("Assume calibration pose\n");
-    }
+    if(g_bNeedPose) printf("Assume calibration pose\n");
 
     while (!xnOSWasKeyboardHit())
     {
@@ -304,8 +301,7 @@ int main()
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
 
-            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND,
-                    rhand);
+            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND, rhand);
 
 
             distancechange = sqrt(pow(rhand.position.position.X - lastx[i], 2)
@@ -319,63 +315,61 @@ int main()
             }else{
                 netpositivev = FALSE;
             }
+
             lastx[i] =   rhand.position.position.X;
             lasty[i] =   rhand.position.position.Y;
             lastz[i] =   rhand.position.position.Z;
 
 
-
-            vaverage = ((distancechange + twochange) * .001) / (.0667);
-
+            vaverage[0] = ((distancechange + twochange) * .001) / (.0667);
 
 
-            steps = vaverage * 12;  //Number of color steps is determined by
-            velocity
+            //Number of color steps is determined by velocity
+            steps = vaverage[0] * 12;
 
 
+            //COLOR SHIFTING ALGORITHIM
 
-                //COLOR SHIFTING ALGORITHIM
+            if(netpositivev && (vaverage[0] > 1)){
+                printf("net positive\n");
+                for( i = 0; i <= steps; i++){
 
-                if(netpositivev && (vaverage > 1)){
-                    printf("net positive\n");
-                    for( i = 0; i <= steps; i++){
-
-                        if(r[i]== 255 && b[i]!= 255 && g[i]== 0){
-                            b[i]+=1;
-                        }
-                        if(r[i]== 255 && b[i]== 255 && g[i]== 0){
-                            r[i]-=1;
-                        }
-
-                        if(r[i]!= 255 && b[i]== 255 && g[i]== 0){
-                            r[i]-=1;
-                        }
-
-                        if(r[i]== 0 && b[i]== 255 && g[i]!= 255){
-                            g[i]+=1;
-                        }
-
-                        if(r[i]== 0 && b[i]== 255 && g[i]== 255){
-                            b[i]-=1;
-                        }
-
-                        if(r[i]== 0 && b[i]!= 255 && g[i]== 255){
-                            b[i]-=1;
-                        }
-                        if(r[i]!= 255 && b[i]== 0 && g[i]== 255){
-                            r[i]+=1;
-                        }
-                        if(r[i]== 255 && b[i]== 0 && g[i]== 255){
-                            g[i]-=1;
-                        }
-                        if(r[i]== 255 && b[i]== 0 && g[i]!= 0 ){
-                            g[i]-=1;
-                        }
+                    if(r[i]== 255 && b[i]!= 255 && g[i]== 0){
+                        b[i]+=1;
+                    }
+                    if(r[i]== 255 && b[i]== 255 && g[i]== 0){
+                        r[i]-=1;
                     }
 
+                    if(r[i]!= 255 && b[i]== 255 && g[i]== 0){
+                        r[i]-=1;
+                    }
+
+                    if(r[i]== 0 && b[i]== 255 && g[i]!= 255){
+                        g[i]+=1;
+                    }
+
+                    if(r[i]== 0 && b[i]== 255 && g[i]== 255){
+                        b[i]-=1;
+                    }
+
+                    if(r[i]== 0 && b[i]!= 255 && g[i]== 255){
+                        b[i]-=1;
+                    }
+                    if(r[i]!= 255 && b[i]== 0 && g[i]== 255){
+                        r[i]+=1;
+                    }
+                    if(r[i]== 255 && b[i]== 0 && g[i]== 255){
+                        g[i]-=1;
+                    }
+                    if(r[i]== 255 && b[i]== 0 && g[i]!= 0 ){
+                        g[i]-=1;
+                    }
                 }
 
-            if(!netpositivev && (vaverage > 1)){
+            }
+
+            if(!netpositivev && (vaverage[0] > 1)){
                 printf("net negative\n");
                 for( i = 0; i <= steps; i++){
 
@@ -429,13 +423,11 @@ int main()
             }
 
             twochange = distancechange;
-            vaveragetwo = vaverage;
-            vaveragethree = vaveragetwo;
-            vaveragefour = vaveragethree;
-            vaveragefive = vaveragefour;
+            for(int i = 0; i <5; i++){
+                vaverage[i + 1] = vaverage[i];
+            }
 
-            sprintf(command, "python ../../../../LED-control/varcolor.py %f %f
-                    %f", avg_r/255, avg_g/255, avg_b/255);
+            sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
             system(command);
 
 
@@ -447,5 +439,3 @@ int main()
     g_Context.Release();
 
 }
-
-
