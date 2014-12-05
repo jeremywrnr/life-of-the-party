@@ -180,6 +180,16 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
     return nRetVal;						    \
 }
 
+// life of the color initialization
+double distancechange[4];
+double secondchange[4];
+double r[4] = {0,0,0,0};
+double g[4] = {0,0,0,0};
+double b[4] = {0,0,0,0};
+double lastx[4] = {0,0,0,0};
+double lasty[4] = {0,0,0,0};
+double lastz[4] = {0,0,0,0};
+
 int main()
 {
     XnStatus nRetVal = XN_STATUS_OK;
@@ -270,22 +280,15 @@ int main()
     XnSkeletonJointTransformation rhand;
 
     int steps = 0;
-    int STEPCONST = 12;
-
     char command[200];
+
+    int STEPCONST = 12;
     bool netpositivev;
-    double distancechange;
-    double secondchange;
+
     double avg_b, avg_g, avg_r = 0;
 
-    double r[3] = {0,0,0};
-    double g[3] = {0,0,0};
-    double b[3] = {0,0,0};
-    double lastx[3] = {0,0,0};
-    double lasty[3] = {0,0,0};
-    double lastz[3] = {0,0,0};
 
-    double vaverage[3][5];
+    double vaverage[4][5];
 
 
 
@@ -300,7 +303,7 @@ int main()
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
         //for(XnUInt16 userID=0; userID<3; userID++)
-        for(int userID=0; userID<3; userID++)
+        for(XnUInt16 userID=0; userID < nUsers; userID++)
         {
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[userID])==FALSE)
                 continue;
@@ -329,6 +332,9 @@ int main()
             vaverage[userID][0] = ((distancechange + secondchange) * .001) / (.0667);
             secondchange = distancechange;
 
+
+            // relative position
+            printf("distance change: %f %f\n", distancechange, userID);
 
             //Number of color steps is determined by velocity
             steps = vaverage[userID][0] * STEPCONST;
@@ -409,9 +415,9 @@ int main()
                */
 
             // contribute a third to the overall light scheme
-            avg_r += r[userID]/3.0;
-            avg_g += g[userID]/3.0;
-            avg_b += b[userID]/3.0;
+            avg_r += r[userID]/nUsers;
+            avg_g += g[userID]/nUsers;
+            avg_b += b[userID]/nUsers;
 
             printf("rgb: %f %f %f\n", avg_r/255.0, avg_g/255.0, avg_b/255.0);
 
@@ -420,14 +426,13 @@ int main()
 
             // update only after averaging first user
             // if( userID == 0){}
-            sprintf(command, "python ../../../LED-control/varcolor.py %f %f %f", avg_r/255.0, avg_g/255.0, avg_b/255.0);
-            system(command);
 
         } // end user for loop
 
-
-
     }// end of kinect loop
+
+    sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255.0, avg_g/255.0, avg_b/255.0);
+    system(command);
 
     g_scriptNode.Release();
     g_UserGenerator.Release();
