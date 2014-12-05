@@ -1,15 +1,14 @@
-
 /******************************************************************************
-___      ___   _______  _______    _______  _______
-|   |    |   | |       ||       |  |       ||       |
-|   |    |   | |    ___||    ___|  |   _   ||    ___|
-|   |    |   | |   |___ |   |___   |  | |  ||   |___
-|   |___ |   | |    ___||    ___|  |  |_|  ||    ___|
-|       ||   | |   |    |   |___   |       ||   |
-|_______||___| |___|    |_______|  |_______||___|
-_______  __   __  _______    _______  _______  ______    _______  __   __
-|       ||  | |  ||       |  |       ||   _   ||    _ |  |       ||  | |  |
-|_     _||  |_|  ||    ___|  |    _  ||  |_|  ||   | ||  |_     _||  |_|  |
+  ___      ___   _______  _______    _______  _______
+  |   |    |   | |       ||       |  |       ||       |
+  |   |    |   | |    ___||    ___|  |   _   ||    ___|
+  |   |    |   | |   |___ |   |___   |  | |  ||   |___
+  |   |___ |   | |    ___||    ___|  |  |_|  ||    ___|
+  |       ||   | |   |    |   |___   |       ||   |
+  |_______||___| |___|    |_______|  |_______||___|
+  _______ __   __  _______    _______  _______  ______    _______  __   __
+  |     ||  | |  ||       |  |       ||   _   ||    _ |  |       ||  | |  |
+  |_   _||  |_|  ||    ___|  |    _  ||  |_|  ||   | ||  |_     _||  |_|  |
   |   |  |       ||   |___   |   |_| ||       ||   |_||_   |   |  |       |
   |   |  |       ||    ___|  |    ___||       ||    __  |  |   |  |_     _|
   |   |  |   _   ||   |___   |   |    |   _   ||   |  | |  |   |    |   |
@@ -29,27 +28,27 @@ _______  __   __  _______    _______  _______  ______    _______  __   __
  *                                                                            *
  *                                                                            *
 
-******************************************************************************
-*****************************************************************************
-*                                                                            *
-*  OpenNI 1.x Alpha                                                          *
-*  Copyright (C) 2012 PrimeSense Ltd.                                        *
-*                                                                            *
-*  This file is part of OpenNI.                                              *
-*                                                                            *
-*  Licensed under the Apache License, Version 2.0 (the "License");           *
-*  you may not use this file except in compliance with the License.          *
-*  You may obtain a copy of the License at                                   *
-*                                                                            *
-*      http://www.apache.org/licenses/LICENSE-2.0                            *
-*                                                                            *
-*  Unless required by applicable law or agreed to in writing, software       *
-*  distributed under the License is distributed on an "AS IS" BASIS,         *
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  *
-*  See the License for the specific language governing permissions and       *
-*  limitations under the License.                                            *
-*                                                                            *
-*****************************************************************************/
+ ******************************************************************************
+ *****************************************************************************
+ *                                                                            *
+ *  OpenNI 1.x Alpha                                                          *
+ *  Copyright (C) 2012 PrimeSense Ltd.                                        *
+ *                                                                            *
+ *  This file is part of OpenNI.                                              *
+ *                                                                            *
+ *  Licensed under the Apache License, Version 2.0 (the "License");           *
+ *  you may not use this file except in compliance with the License.          *
+ *  You may obtain a copy of the License at                                   *
+ *                                                                            *
+ *      http://www.apache.org/licenses/LICENSE-2.0                            *
+ *                                                                            *
+ *  Unless required by applicable law or agreed to in writing, software       *
+ *  distributed under the License is distributed on an "AS IS" BASIS,         *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  *
+ *  See the License for the specific language governing permissions and       *
+ *  limitations under the License.                                            *
+ *                                                                            *
+ *****************************************************************************/
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
@@ -80,15 +79,14 @@ XnChar g_strPose[20] = "";
 
 XnBool fileExists(const char *fn)
 {
-	XnBool exists;
-	xnOSDoesFileExist(fn, &exists);
-	return exists;
+    XnBool exists;
+    xnOSDoesFileExist(fn, &exists);
+    return exists;
 }
 
-
-
 // Callback: New user was detected
-void XN_CALLBACK_TYPE User_NewUser(xn::UserGenerator& /*generator*/, XnUserID nId, void* /*pCookie*/)
+void XN_CALLBACK_TYPE User_NewUser(xn::UserGenerator& /*generator*/, XnUserID
+        nId, void* /*pCookie*/)
 {
     XnUInt32 epochTime = 0;
     xnOSGetEpochTime(&epochTime);
@@ -96,7 +94,8 @@ void XN_CALLBACK_TYPE User_NewUser(xn::UserGenerator& /*generator*/, XnUserID nI
     // New user found
     if (g_bNeedPose)
     {
-        g_UserGenerator.GetPoseDetectionCap().StartPoseDetection(g_strPose, nId);
+        g_UserGenerator.GetPoseDetectionCap().StartPoseDetection(g_strPose,
+                nId);
     }
     else
     {
@@ -105,10 +104,9 @@ void XN_CALLBACK_TYPE User_NewUser(xn::UserGenerator& /*generator*/, XnUserID nI
 }
 
 
-
-
 // Callback: An existing user was lost
-void XN_CALLBACK_TYPE User_LostUser(xn::UserGenerator& /*generator*/, XnUserID nId, void* /*pCookie*/)
+void XN_CALLBACK_TYPE User_LostUser(xn::UserGenerator& /*generator*/, XnUserID
+        nId, void* /*pCookie*/)
 {
     XnUInt32 epochTime = 0;
     xnOSGetEpochTime(&epochTime);
@@ -118,7 +116,8 @@ void XN_CALLBACK_TYPE User_LostUser(xn::UserGenerator& /*generator*/, XnUserID n
 
 
 // Callback: Detected a pose
-void XN_CALLBACK_TYPE UserPose_PoseDetected(xn::PoseDetectionCapability& /*capability*/, const XnChar* strPose, XnUserID nId, void* /*pCookie*/)
+void XN_CALLBACK_TYPE UserPose_PoseDetected(xn::PoseDetectionCapability&
+        /*capability*/, const XnChar* strPose, XnUserID nId, void* /*pCookie*/)
 {
     XnUInt32 epochTime = 0;
     xnOSGetEpochTime(&epochTime);
@@ -130,7 +129,8 @@ void XN_CALLBACK_TYPE UserPose_PoseDetected(xn::PoseDetectionCapability& /*capab
 
 
 // Callback: Started calibration
-void XN_CALLBACK_TYPE UserCalibration_CalibrationStart(xn::SkeletonCapability& /*capability*/, XnUserID nId, void* /*pCookie*/)
+void XN_CALLBACK_TYPE UserCalibration_CalibrationStart(xn::SkeletonCapability&
+        /*capability*/, XnUserID nId, void* /*pCookie*/)
 {
     XnUInt32 epochTime = 0;
     xnOSGetEpochTime(&epochTime);
@@ -139,14 +139,17 @@ void XN_CALLBACK_TYPE UserCalibration_CalibrationStart(xn::SkeletonCapability& /
 
 
 
-void XN_CALLBACK_TYPE UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/, XnUserID nId, XnCalibrationStatus eStatus, void* /*pCookie*/)
+void XN_CALLBACK_TYPE
+UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
+        XnUserID nId, XnCalibrationStatus eStatus, void* /*pCookie*/)
 {
     XnUInt32 epochTime = 0;
     xnOSGetEpochTime(&epochTime);
     if (eStatus == XN_CALIBRATION_STATUS_OK)
     {
         // Calibration succeeded
-        printf("%d Calibration complete, start tracking user %d\n", epochTime, nId);
+        printf("%d Calibration complete, start tracking user %d\n", epochTime,
+                nId);
         g_UserGenerator.GetSkeletonCap().StartTracking(nId);
     }
     else
@@ -160,7 +163,8 @@ void XN_CALLBACK_TYPE UserCalibration_CalibrationComplete(xn::SkeletonCapability
         }
         if (g_bNeedPose)
         {
-            g_UserGenerator.GetPoseDetectionCap().StartPoseDetection(g_strPose, nId);
+            g_UserGenerator.GetPoseDetectionCap().StartPoseDetection(g_strPose,
+                    nId);
         }
         else
         {
@@ -169,21 +173,12 @@ void XN_CALLBACK_TYPE UserCalibration_CalibrationComplete(xn::SkeletonCapability
     }
 }
 
-
-
-
 #define CHECK_RC(nRetVal, what)					    \
-if (nRetVal != XN_STATUS_OK)				    \
-{								    \
-printf("%s failed: %s\n", what, xnGetStatusString(nRetVal));    \
-return nRetVal;						    \
-}
-
-
-
-
-
-
+    if (nRetVal != XN_STATUS_OK)				    \
+    {								    \
+        printf("%s failed: %s\n", what, xnGetStatusString(nRetVal));    \
+        return nRetVal;						    \
+    }
 
 int main()
 {
@@ -194,7 +189,8 @@ int main()
     if    (fileExists(SAMPLE_XML_PATH)) fn = SAMPLE_XML_PATH;
     else if (fileExists(SAMPLE_XML_PATH_LOCAL)) fn = SAMPLE_XML_PATH_LOCAL;
     else {
-        printf("Could not find '%s' nor '%s'. Aborting.\n" , SAMPLE_XML_PATH, SAMPLE_XML_PATH_LOCAL);
+        printf("Could not find '%s' nor '%s'. Aborting.\n" , SAMPLE_XML_PATH,
+                SAMPLE_XML_PATH_LOCAL);
         return XN_STATUS_ERROR;
     }
     printf("Reading config from: '%s'\n", fn);
@@ -220,28 +216,37 @@ int main()
         CHECK_RC(nRetVal, "Find user generator");
     }
 
-    XnCallbackHandle hUserCallbacks, hCalibrationStart, hCalibrationComplete, hPoseDetected;
+    XnCallbackHandle hUserCallbacks, hCalibrationStart, hCalibrationComplete,
+                     hPoseDetected;
     if (!g_UserGenerator.IsCapabilitySupported(XN_CAPABILITY_SKELETON))
     {
         printf("Supplied user generator doesn't support skeleton\n");
         return 1;
     }
-    nRetVal = g_UserGenerator.RegisterUserCallbacks(User_NewUser, User_LostUser, NULL, hUserCallbacks);
+    nRetVal = g_UserGenerator.RegisterUserCallbacks(User_NewUser,
+            User_LostUser, NULL, hUserCallbacks);
     CHECK_RC(nRetVal, "Register to user callbacks");
-    nRetVal = g_UserGenerator.GetSkeletonCap().RegisterToCalibrationStart(UserCalibration_CalibrationStart, NULL, hCalibrationStart);
+    nRetVal =
+        g_UserGenerator.GetSkeletonCap().RegisterToCalibrationStart(UserCalibration_CalibrationStart,
+                NULL, hCalibrationStart);
     CHECK_RC(nRetVal, "Register to calibration start");
-    nRetVal = g_UserGenerator.GetSkeletonCap().RegisterToCalibrationComplete(UserCalibration_CalibrationComplete, NULL, hCalibrationComplete);
+    nRetVal =
+        g_UserGenerator.GetSkeletonCap().RegisterToCalibrationComplete(UserCalibration_CalibrationComplete,
+                NULL, hCalibrationComplete);
     CHECK_RC(nRetVal, "Register to calibration complete");
 
     if (g_UserGenerator.GetSkeletonCap().NeedPoseForCalibration())
     {
         g_bNeedPose = TRUE;
-        if (!g_UserGenerator.IsCapabilitySupported(XN_CAPABILITY_POSE_DETECTION))
-        {
-            printf("Pose required, but not supported\n");
-            return 1;
-        }
-        nRetVal = g_UserGenerator.GetPoseDetectionCap().RegisterToPoseDetected(UserPose_PoseDetected, NULL, hPoseDetected);
+        if
+            (!g_UserGenerator.IsCapabilitySupported(XN_CAPABILITY_POSE_DETECTION))
+            {
+                printf("Pose required, but not supported\n");
+                return 1;
+            }
+        nRetVal =
+            g_UserGenerator.GetPoseDetectionCap().RegisterToPoseDetected(UserPose_PoseDetected,
+                    NULL, hPoseDetected);
         CHECK_RC(nRetVal, "Register to Pose Detected");
         g_UserGenerator.GetSkeletonCap().GetCalibrationPose(g_strPose);
     }
@@ -251,9 +256,9 @@ int main()
     nRetVal = g_Context.StartGeneratingAll();
     CHECK_RC(nRetVal, "StartGenerating");
 
-//LIFE OF THE PARTY CODE BEGINS HERE****************************************
-//*******************************************************************************
-//********************************************************************************
+    //LIFE OF THE PARTY CODE BEGINS HERE****************************************
+    //*******************************************************************************
+    //********************************************************************************
 
     XnUserID aUsers[MAX_NUM_USERS];
     XnUInt16 nUsers;
@@ -289,7 +294,7 @@ int main()
         printf("Assume calibration pose\n");
     }
 
-	while (!xnOSWasKeyboardHit())
+    while (!xnOSWasKeyboardHit())
     {
         g_Context.WaitOneUpdateAll(g_UserGenerator);
 
@@ -301,13 +306,17 @@ int main()
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
 
-            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND, rhand);
+            g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND,
+                    rhand);
 
 
-            distancechange = sqrt(pow(rhand.position.position.X - lastx[i], 2) + pow(rhand.position.position.Y - lasty[i],2) + pow(rhand.position.position.Z - lastz[i], 2));
+            distancechange = sqrt(pow(rhand.position.position.X - lastx[i], 2)
+                    + pow(rhand.position.position.Y - lasty[i],2) +
+                    pow(rhand.position.position.Z - lastz[i], 2));
 
 
-            if((rhand.position.position.X - lastx[i]) + (rhand.position.position.Y - lasty[i]) > 0){
+            if((rhand.position.position.X - lastx[i]) +
+                    (rhand.position.position.Y - lasty[i]) > 0){
                 netpositivev = TRUE;
             }else{
                 netpositivev = FALSE;
@@ -322,47 +331,48 @@ int main()
 
 
 
-            steps = vaverage * 12;  //Number of color steps is determined by velocity
+            steps = vaverage * 12;  //Number of color steps is determined by
+            velocity
 
 
 
-            //COLOR SHIFTING ALGORITHIM
+                //COLOR SHIFTING ALGORITHIM
 
-            if(netpositivev && (vaverage > 1)){
-                printf("net positive\n");
+                if(netpositivev && (vaverage > 1)){
+                    printf("net positive\n");
                     for( i = 0; i <= steps; i++){
 
                         if(r[i]== 255 && b[i]!= 255 && g[i]== 0){
-                                b[i]+=1;
-                            }
+                            b[i]+=1;
+                        }
                         if(r[i]== 255 && b[i]== 255 && g[i]== 0){
-                                r[i]-=1;
-                            }
+                            r[i]-=1;
+                        }
 
                         if(r[i]!= 255 && b[i]== 255 && g[i]== 0){
-                                r[i]-=1;
-                            }
+                            r[i]-=1;
+                        }
 
                         if(r[i]== 0 && b[i]== 255 && g[i]!= 255){
-                                g[i]+=1;
-                            }
+                            g[i]+=1;
+                        }
 
                         if(r[i]== 0 && b[i]== 255 && g[i]== 255){
-                                b[i]-=1;
-                            }
+                            b[i]-=1;
+                        }
 
                         if(r[i]== 0 && b[i]!= 255 && g[i]== 255){
-                                b[i]-=1;
-                            }
+                            b[i]-=1;
+                        }
                         if(r[i]!= 255 && b[i]== 0 && g[i]== 255){
-                                r[i]+=1;
-                            }
+                            r[i]+=1;
+                        }
                         if(r[i]== 255 && b[i]== 0 && g[i]== 255){
-                                g[i]-=1;
-                            }
+                            g[i]-=1;
+                        }
                         if(r[i]== 255 && b[i]== 0 && g[i]!= 0 ){
-                                g[i]-=1;
-                            }
+                            g[i]-=1;
+                        }
                     }
 
                 }
@@ -401,21 +411,23 @@ int main()
             }
 
             //COLOR JUMPING ALGORITHIM
-            //If hand acceleration is greater than 2 m/s , complementary color jump will occur
+            //If hand acceleration is greater than 2 m/s , complementary color
+            //jump will occur
 
-          /*
-           if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
-                r = 255 - r;
-                g = 255 - g;
-                b = 255 - b;
-            }
-           */
+            /*
+               if(vaverage - (vaveragetwo + vaveragethree + vaveragefour +
+               vaveragefive)/4 > 2.5){
+               r = 255 - r;
+               g = 255 - g;
+               b = 255 - b;
+               }
+               */
 
             double avg_b, avg_g, avg_r;
             for (int i = 0; i <3; i++) {
-                avg_r += r[i]/3;
-                avg_g += g[i]/3;
-                avg_b += b[i]/3;
+                avg_r += r[i]/3.0;
+                avg_g += g[i]/3.0;
+                avg_b += b[i]/3.0;
             }
 
             twochange = distancechange;
@@ -424,7 +436,8 @@ int main()
             vaveragefour = vaveragethree;
             vaveragefive = vaveragefour;
 
-            sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+            sprintf(command, "python ../../../../LED-control/varcolor.py %f %f
+                    %f", avg_r/255, avg_g/255, avg_b/255);
             system(command);
 
 
@@ -436,30 +449,5 @@ int main()
     g_Context.Release();
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
