@@ -417,6 +417,8 @@ int main()
             // shift over all user's vel. average hist
             for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
 
+            // update only after averaging first user
+            // if( userID == 0){}
             sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
             system(command);
 
