@@ -193,7 +193,7 @@ double lastx[4] = {0,0,0,0};
 double lasty[4] = {0,0,0,0};
 double lastz[4] = {0,0,0,0};
 
-main()
+int main()
 {
     XnStatus nRetVal = XN_STATUS_OK;
     xn::EnumerationErrors errors;
@@ -337,7 +337,7 @@ main()
 
             //COLOR SHIFTING ALGORITHIM
 
-            if(netpositivev[user        ] && (vaverage[userID][0] > 1)){
+            if(netpositivev[userID] && (vaverage[userID][0] > 1)){
                 printf("net positive\n");
                 for( int i = 0; i <= steps; i++){
 
@@ -371,7 +371,7 @@ main()
                 }
             }
 
-            if(!netpositivev[user       ] && (vaverage[userID][0] > 1)){
+            if(!netpositivev[userID] && (vaverage[userID][0] > 1)){
                 printf("net negative\n");
                 for( int i = 0; i <= steps; i++){
 
