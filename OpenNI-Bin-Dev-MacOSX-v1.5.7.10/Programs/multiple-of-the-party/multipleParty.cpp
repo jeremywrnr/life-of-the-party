@@ -336,7 +336,7 @@ int main()
 
             // relative position debugging
             printf("distance change: %f %d\n", distancechange[userID], userID);
-            printf("vavergage change: %f %d\n", vaverage[userID], userID);
+            printf("vavergage change: %f %d\n", vaverage[userID][0], userID);
 
             //Number of color steps is determined by velocity
             steps = vaverage[userID][0] * STEPCONST;
