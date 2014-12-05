@@ -275,7 +275,7 @@ int main()
     char command[200];
     bool netpositivev;
     double distancechange;
-    double secondchange0;
+    double secondchange;
     double avg_b, avg_g, avg_r = 0;
 
     double r[3] = {0,0,0};
