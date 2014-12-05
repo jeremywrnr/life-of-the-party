@@ -25,7 +25,7 @@ _______  __   __  _______    _______  _______  ______    _______  __   __
  *  tracking with OpenNI and has been heavily modified. Modifications are     *
  *  noted where they occur in the source. In accordance with Apache 2.0, the  *
  *  original licensce has been left intact below.                             *
- *                                                                            *                                 
+ *                                                                            *
  *                                                                            *
  *                                                                            *
 
@@ -250,11 +250,11 @@ int main()
 
     nRetVal = g_Context.StartGeneratingAll();
     CHECK_RC(nRetVal, "StartGenerating");
-    
+
 //LIFE OF THE PARTY CODE BEGINS HERE****************************************
 //*******************************************************************************
 //********************************************************************************
-    
+
     XnUserID aUsers[MAX_NUM_USERS];
     XnUInt16 nUsers;
     XnSkeletonJointTransformation head;
@@ -263,7 +263,7 @@ int main()
     XnSkeletonJointTransformation rfoot;
     XnSkeletonJointTransformation lhand;
     XnSkeletonJointTransformation rhand;
-    
+
     double lastx[3];
     double lasty[3];
     double lastz[3];
@@ -280,7 +280,7 @@ int main()
     double distancechange;
     double twochange = 0;
     bool netpositivev;
-    
+
 
 
     printf("Starting to run\n");
@@ -300,13 +300,13 @@ int main()
         {
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
-            
+
             g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_RIGHT_HAND, rhand);
-            
-            
+
+
             distancechange = sqrt(pow(rhand.position.position.X - lastx[i], 2) + pow(rhand.position.position.Y - lasty[i],2) + pow(rhand.position.position.Z - lastz[i], 2));
-            
-            
+
+
             if((rhand.position.position.X - lastx[i]) + (rhand.position.position.Y - lasty[i]) > 0){
                 netpositivev = TRUE;
             }else{
@@ -315,42 +315,42 @@ int main()
             lastx[i] =   rhand.position.position.X;
             lasty[i] =   rhand.position.position.Y;
             lastz[i] =   rhand.position.position.Z;
-            
-            
-            
+
+
+
             vaverage = ((distancechange + twochange) * .001) / (.0667);
-            
-            
-            
+
+
+
             steps = vaverage * 12;  //Number of color steps is determined by velocity
-            
-            
-            
+
+
+
             //COLOR SHIFTING ALGORITHIM
-            
+
             if(netpositivev && (vaverage > 1)){
                 printf("net positive\n");
                     for( i = 0; i <= steps; i++){
-                
+
                         if(r[i]== 255 && b[i]!= 255 && g[i]== 0){
                                 b[i]+=1;
                             }
                         if(r[i]== 255 && b[i]== 255 && g[i]== 0){
                                 r[i]-=1;
                             }
-            
+
                         if(r[i]!= 255 && b[i]== 255 && g[i]== 0){
                                 r[i]-=1;
                             }
-            
+
                         if(r[i]== 0 && b[i]== 255 && g[i]!= 255){
                                 g[i]+=1;
                             }
-            
+
                         if(r[i]== 0 && b[i]== 255 && g[i]== 255){
                                 b[i]-=1;
                             }
-            
+
                         if(r[i]== 0 && b[i]!= 255 && g[i]== 255){
                                 b[i]-=1;
                             }
@@ -364,45 +364,45 @@ int main()
                                 g[i]-=1;
                             }
                     }
-                
+
                 }
-            
+
             if(!netpositivev && (vaverage > 1)){
                 printf("net negative\n");
                 for( i = 0; i <= steps; i++){
-                    
-                    
+
+
                     if(r[i]== 255 && b[i]!= 0 && g[i]== 0){
                         b[i]-=1;
                     }
                     if(r[i]== 255 && b[i]== 0 && g[i]!= 255){
                         g[i]+=1;
                     }
-            
+
                     if(r[i]!= 0 && b[i]== 0 && g[i]== 255){
                         r[i]-=1;
                     }
-                    
+
                     if(r[i]== 0 && b[i]!= 255 && g[i]== 255){
                         b[i]+=1;
                     }
-                    
+
                     if(r[i]== 0 && b[i]== 255 && g[i]!= 0){
                         g[i]-=1;
                     }
-                    
+
                     if(r[i]!= 255 && b[i]== 255 && g[i]== 0){
                         r[i]+=1;
                     }
-                    
-                    
+
+
                 }
-                
+
             }
-            
+
             //COLOR JUMPING ALGORITHIM
             //If hand acceleration is greater than 2 m/s , complementary color jump will occur
-            
+
           /*
            if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
                 r = 255 - r;
@@ -410,14 +410,14 @@ int main()
                 b = 255 - b;
             }
            */
-            
+
             double avg_b, avg_g, avg_r;
             for (int i = 0; i <3; i++) {
                 avg_r += r[i]/3;
                 avg_g += g[i]/3;
                 avg_b += b[i]/3;
             }
-    
+
             twochange = distancechange;
             vaveragetwo = vaverage;
             vaveragethree = vaveragetwo;
@@ -426,10 +426,10 @@ int main()
 
             sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
             system(command);
-            
-            
+
+
         }
-        
+
     }
     g_scriptNode.Release();
     g_UserGenerator.Release();
