@@ -180,34 +180,28 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
     return nRetVal;						    \
 }
 
+/////////////////////////////////////
 // life of the color initialization
+int steps = 0;
 double avg_r = 0;
 double avg_g = 0;
 double avg_b = 0;
-double r[4];
-double g[4];
-double b[4];
-double lastx[4];
-double lasty[4];
-double lastz[4];
-double distancechange[4];
-double secondchange[4];
+
 double vaverage[4][5];
+double r[4], g[4], b[4];
+double lastx[4], lasty[4],lastz[4];
+double distancechange[4], secondchange[4];
 // END life of the color initialization
+/////////////////////////////////////
 
 int main()
 {
     XnStatus nRetVal = XN_STATUS_OK;
     xn::EnumerationErrors errors;
-
     const char *fn = NULL;
-    if    (fileExists(SAMPLE_XML_PATH)) fn = SAMPLE_XML_PATH;
+    if (fileExists(SAMPLE_XML_PATH)) fn = SAMPLE_XML_PATH;
     else if (fileExists(SAMPLE_XML_PATH_LOCAL)) fn = SAMPLE_XML_PATH_LOCAL;
-    else {
-        printf("Could not find '%s' nor '%s'. Aborting.\n" , SAMPLE_XML_PATH,
-                SAMPLE_XML_PATH_LOCAL);
-        return XN_STATUS_ERROR;
-    }
+    else { printf("Could not find '%s' nor '%s'. Aborting.\n" , SAMPLE_XML_PATH, SAMPLE_XML_PATH_LOCAL); return XN_STATUS_ERROR; }
     printf("Reading config from: '%s'\n", fn);
 
     nRetVal = g_Context.InitFromXmlFile(fn, g_scriptNode, &errors);
@@ -231,37 +225,28 @@ int main()
         CHECK_RC(nRetVal, "Find user generator");
     }
 
-    XnCallbackHandle hUserCallbacks, hCalibrationStart, hCalibrationComplete,
-                     hPoseDetected;
+    XnCallbackHandle hUserCallbacks, hCalibrationStart, hCalibrationComplete, hPoseDetected;
     if (!g_UserGenerator.IsCapabilitySupported(XN_CAPABILITY_SKELETON))
     {
         printf("Supplied user generator doesn't support skeleton\n");
         return 1;
     }
-    nRetVal = g_UserGenerator.RegisterUserCallbacks(User_NewUser,
-            User_LostUser, NULL, hUserCallbacks);
+    nRetVal = g_UserGenerator.RegisterUserCallbacks(User_NewUser, User_LostUser, NULL, hUserCallbacks);
     CHECK_RC(nRetVal, "Register to user callbacks");
-    nRetVal =
-        g_UserGenerator.GetSkeletonCap().RegisterToCalibrationStart(UserCalibration_CalibrationStart,
-                NULL, hCalibrationStart);
+    nRetVal = g_UserGenerator.GetSkeletonCap().RegisterToCalibrationStart(UserCalibration_CalibrationStart, NULL, hCalibrationStart);
     CHECK_RC(nRetVal, "Register to calibration start");
-    nRetVal =
-        g_UserGenerator.GetSkeletonCap().RegisterToCalibrationComplete(UserCalibration_CalibrationComplete,
-                NULL, hCalibrationComplete);
+    nRetVal = g_UserGenerator.GetSkeletonCap().RegisterToCalibrationComplete(UserCalibration_CalibrationComplete, NULL, hCalibrationComplete);
     CHECK_RC(nRetVal, "Register to calibration complete");
 
     if (g_UserGenerator.GetSkeletonCap().NeedPoseForCalibration())
     {
         g_bNeedPose = TRUE;
-        if
-            (!g_UserGenerator.IsCapabilitySupported(XN_CAPABILITY_POSE_DETECTION))
-            {
-                printf("Pose required, but not supported\n");
-                return 1;
-            }
-        nRetVal =
-            g_UserGenerator.GetPoseDetectionCap().RegisterToPoseDetected(UserPose_PoseDetected,
-                    NULL, hPoseDetected);
+        if (!g_UserGenerator.IsCapabilitySupported(XN_CAPABILITY_POSE_DETECTION))
+        {
+            printf("Pose required, but not supported\n");
+            return 1;
+        }
+        nRetVal = g_UserGenerator.GetPoseDetectionCap().RegisterToPoseDetected(UserPose_PoseDetected, NULL, hPoseDetected);
         CHECK_RC(nRetVal, "Register to Pose Detected");
         g_UserGenerator.GetSkeletonCap().GetCalibrationPose(g_strPose);
     }
@@ -284,7 +269,6 @@ int main()
     XnSkeletonJointTransformation lhand;
     XnSkeletonJointTransformation rhand;
 
-    int steps = 0;
     char command[200];
     bool netpositivev[4];
     double STEPCONST = 15.0;
@@ -295,7 +279,6 @@ int main()
     while (!xnOSWasKeyboardHit())
     {
         g_Context.WaitOneUpdateAll(g_UserGenerator);
-
         nUsers=MAX_NUM_USERS;
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
@@ -310,11 +293,12 @@ int main()
                     + pow(rhand.position.position.Y - lasty[userID],2) +
                     pow(rhand.position.position.Z - lastz[userID], 2));
 
-
-            if((rhand.position.position.X - lastx[userID]) +
-                    (rhand.position.position.Y - lasty[userID]) > 0){
+            if((rhand.position.position.X - lastx[userID]) + (rhand.position.position.Y - lasty[userID]) > 0)
+            {
                 netpositivev[userID] = TRUE;
-            }else{
+            }
+            else
+            {
                 netpositivev[userID] = FALSE;
             }
 
@@ -416,19 +400,17 @@ int main()
 
             // print out user colors
             printf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
-            //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
 
             // shift over all user's vel. average hist
             for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
-
-            // update only after averaging first user
-            // if( userID == 0){}
 
         } // end user for loop
 
     }// end of kinect loop
 
     sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+    //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
+    //printf("%s",command); // used for debug
     system(command);
 
     g_scriptNode.Release();
