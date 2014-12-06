@@ -182,15 +182,17 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 
 /////////////////////////////////////
 // life of the color initialization
+
 int steps = 0;
 double avg_r = 0;
 double avg_g = 0;
 double avg_b = 0;
 
 double vaverage[4][5];
-double r[4], g[4], b[4];
-double lastx[4], lasty[4],lastz[4];
-double distancechange[4], secondchange[4];
+double r[4], g[4], b[4] = {0,0,0,0};
+double lastx[4], lasty[4],lastz[4] = {0,0,0,0};
+double distancechange[4], secondchange[4] = {0,0,0,0};
+
 // END life of the color initialization
 /////////////////////////////////////
 
@@ -305,7 +307,6 @@ int main()
             lastx[userID] = rhand.position.position.X;
             lasty[userID] = rhand.position.position.Y;
             lastz[userID] = rhand.position.position.Z;
-
 
             // calibrate user speed
             vaverage[userID][0] = ((distancechange[userID] + secondchange[userID]) * .001) / (.0667);
