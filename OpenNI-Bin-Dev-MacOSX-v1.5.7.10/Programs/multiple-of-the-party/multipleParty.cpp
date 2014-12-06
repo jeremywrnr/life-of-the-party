@@ -184,9 +184,9 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 // life of the color initialization
 
 int steps = 0;
-double avg_r = 0;
 double avg_g = 0;
 double avg_b = 0;
+double avg_r = 255;
 
 double vaverage[4][5];
 double r[4], g[4], b[4] = {0,0,0,0};
@@ -257,6 +257,7 @@ int main()
 
     nRetVal = g_Context.StartGeneratingAll();
     CHECK_RC(nRetVal, "StartGenerating");
+
 
     //LIFE OF THE PARTY CODE BEGINS //HERE**************************************
     //**************************************************************************
@@ -358,7 +359,7 @@ int main()
             }
 
             if(!netpositivev[userID] && (vaverage[userID][0] > 1)){
-                printf("net negative\n");
+                printf("userID: %d | net negative\n",userID);
                 for( int i = 0; i <= steps; i++){
 
                     if(r[userID]== 255.0 && b[userID]!= 0.0 && g[userID]== 0.0){
@@ -403,16 +404,17 @@ int main()
             printf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
 
             // shift over all user's vel. average hist
-            for(int i = 0; i <5; i++) vaverage[userID][i + 1] = vaverage[userID][i];
+            for(int i = 0; i <4; i++) vaverage[userID][i + 1] = vaverage[userID][i];
 
         } // end user for loop
 
+        sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+        //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
+        //printf("%s",command); // used for debug
+        system(command);
+
     }// end of kinect loop
 
-    sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
-    //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
-    //printf("%s",command); // used for debug
-    system(command);
 
     g_scriptNode.Release();
     g_UserGenerator.Release();

@@ -320,10 +320,10 @@ int main()
 
             vaverage = ((distancechange + twochange) * .001) / (.0667);
 
-              
+
             steps = vaverage * 12;  //Number of color steps is determined by velocity
-            
-          
+
+
             //COLOR SHIFTING ALGORITHIM
 
             if(netpositivev && (vaverage > 1)){
