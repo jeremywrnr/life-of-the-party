@@ -174,10 +174,10 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 }
 
 #define CHECK_RC(nRetVal, what)					    \
-    if (nRetVal != XN_STATUS_OK)				    \
+if (nRetVal != XN_STATUS_OK)				    \
 {								    \
-    printf("%s failed: %s\n", what, xnGetStatusString(nRetVal));    \
-    return nRetVal;						    \
+printf("%s failed: %s\n", what, xnGetStatusString(nRetVal));    \
+return nRetVal;						    \
 }
 
 /////////////////////////////////////
