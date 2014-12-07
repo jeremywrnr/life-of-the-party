@@ -399,9 +399,9 @@ int main()
             printf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
 
             // shift over all user's vel. average hist
-            for(int i = 0; i <4; i++){
+            for(int i = 5; i; i--){
                 printf("vaverage %f, i: %d\n", vaverage[userID][i], i);
-                vaverage[userID][i + 1] = vaverage[userID][i];
+                vaverage[userID][i] = vaverage[userID][i - 1];
             };
 
         } // end user for loop
