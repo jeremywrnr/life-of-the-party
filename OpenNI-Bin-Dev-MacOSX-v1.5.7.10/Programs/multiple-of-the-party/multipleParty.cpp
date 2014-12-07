@@ -356,7 +356,7 @@ int main()
                     }
                 }
 
-                if(!netpositivev[userID] )){
+                if(!netpositivev[userID] ){
                     printf("userID: %d | net negative\n",userID);
                     for( int i = 0; i <= steps; i++){
 
