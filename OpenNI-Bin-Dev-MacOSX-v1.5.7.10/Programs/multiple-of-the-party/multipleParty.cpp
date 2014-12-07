@@ -186,7 +186,8 @@ double STEPCONST = 15.0;
 
 bool netpositivev[4];
 double vaverage[4][5];
-double r[4], g[4], b[4] = {0,0,0,0};
+double r[4] = {255,255,255,255};
+double g[4], b[4] = {0,0,0,0};
 double lastx[4], lasty[4],lastz[4] = {0,0,0,0};
 double distancechange[4], secondchange[4] = {0,0,0,0};
 
@@ -333,9 +334,9 @@ int main()
                         if(r[userID]==  0.0  && b[userID]== 255.0 && g[userID]!= 255.0) g[userID]++;
                         if(r[userID]==  0.0  && b[userID]== 255.0 && g[userID]== 255.0) b[userID]--;
                         if(r[userID]==  0.0  && b[userID]!= 255.0 && g[userID]== 255.0) b[userID]--;
-                        if(r[userID]!= 255.0 && b[userID]== 0.0 && g[userID]== 255.0) r[userID]++;
-                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]== 255.0) g[userID]--;
-                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 0.0 ) g[userID]--;
+                        if(r[userID]!= 255.0 && b[userID]==  0.0  && g[userID]== 255.0) r[userID]++;
+                        if(r[userID]== 255.0 && b[userID]==  0.0  && g[userID]== 255.0) g[userID]--;
+                        if(r[userID]== 255.0 && b[userID]==  0.0  && g[userID]!= 0.0 ) g[userID]--;
 
                     }
                     printf("POST - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
