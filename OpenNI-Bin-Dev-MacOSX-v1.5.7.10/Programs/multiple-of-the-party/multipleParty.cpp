@@ -178,13 +178,16 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 /////////////////////////////////////
 // life of the color initialization
 
-int steps = 0;
+double avg_g = 0;
+double avg_b = 0;
+double avg_r = 0;
 double STEPCONST = 15.0;
+int steps, fastestUser;
 
 bool netpositivev[4];
 double vaverage[4][5];
-double r[4] = {255,255,255,255};
-double g[4], b[4] = {0,0,0,0};
+double r = 255;
+double g, b = 0;
 double lastx[4], lasty[4],lastz[4] = {0,0,0,0};
 double distancechange[4], secondchange[4] = {0,0,0,0};
 
@@ -267,10 +270,9 @@ int main()
     XnSkeletonJointTransformation lhand;
     XnSkeletonJointTransformation rhand;
 
+    fastestUser = 0;
     char command[200];
-    double avg_g = 0;
-    double avg_b = 0;
-    double avg_r = 0;
+    double fastestSpeed = 0;
 
     printf("Starting to run\n");
     if(g_bNeedPose) printf("Assume calibration pose\n");
@@ -314,47 +316,16 @@ int main()
             //printf("distance change: %f %d\n", distancechange[userID], userID);
             //printf("vavergage change: %f %d\n", vaverage[userID][0], userID);
 
-            //Number of color steps is determined by velocity
-            steps = (int)(vaverage[userID][0] * STEPCONST);
-            //printf("steps = %d\n", steps);
 
-
-            //COLOR SHIFTING ALGORITHIM
-
-            if(vaverage[userID][0] > 1){
-
-                if(netpositivev[userID] ){
-                    printf("net positive\n");
-                    printf("PRE - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
-                    for( int i = 0; i <= steps; i++){
-
-                        if(r[userID]== 255.0 && b[userID]!= 255.0 && g[userID]== 0.0) b[userID]++;
-                        if(r[userID]== 255.0 && b[userID]== 255.0 && g[userID]== 0.0) r[userID]--;
-                        if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0) r[userID]--;
-                        if(r[userID]==  0.0  && b[userID]== 255.0 && g[userID]!= 255.0) g[userID]++;
-                        if(r[userID]==  0.0  && b[userID]== 255.0 && g[userID]== 255.0) b[userID]--;
-                        if(r[userID]==  0.0  && b[userID]!= 255.0 && g[userID]== 255.0) b[userID]--;
-                        if(r[userID]!= 255.0 && b[userID]==  0.0  && g[userID]== 255.0) r[userID]++;
-                        if(r[userID]== 255.0 && b[userID]==  0.0  && g[userID]== 255.0) g[userID]--;
-                        if(r[userID]== 255.0 && b[userID]==  0.0  && g[userID]!= 0.0 ) g[userID]--;
-
-                    }
-                    printf("POST - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
-                }
-
-                if(!netpositivev[userID] ){
-                    printf("userID: %d | net negative\n",userID);
-                    for( int i = 0; i <= steps; i++){
-
-                        if(r[userID]== 255.0 && b[userID]!= 0.0 && g[userID]== 0.0) b[userID]--;
-                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 255.0) g[userID]++;
-                        if(r[userID]!= 0.0 && b[userID]== 0.0 && g[userID]== 255.0) r[userID]--;
-                        if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0) b[userID]++;
-                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 0.0) g[userID]--;
-                        if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0) r[userID]++;
-                    }
+            //determine the fastest user here
+            for(int i = userID; i; i--){
+                if(vaverage[userID][0] > fastestSpeed){
+                    fastestSpeed = vaverage[userID][0];
+                    fastestUser = userID;
                 }
             }
+
+
 
             //COLOR JUMPING ALGORITHIM
             //If hand acceleration is greater than 2 m/s , complementary color
@@ -369,12 +340,14 @@ int main()
                */
 
             // contribute a 1/nUsers to the overall light scheme
-            avg_r += r[userID]/nUsers;
-            avg_g += g[userID]/nUsers;
-            avg_b += b[userID]/nUsers;
+            //avg_r += r[userID]/nUsers;
+            //avg_g += g[userID]/nUsers;
+            //avg_b += b[userID]/nUsers;
 
             // print out user colors
             //printf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
+
+            // option -  just add one light per person upto three
 
             // shift over all user's vel. average hist
             //printf("vaverage 0 %f", vaverage[userID][0]);
@@ -385,13 +358,53 @@ int main()
 
         } // end user for loop
 
+        //Number of color steps is determined by velocity
+        steps = (int)(vaverage[fastestUser][0] * STEPCONST);
+        //printf("steps = %d\n", steps);
+
+        //COLOR SHIFTING ALGORITHIM
+
+        if(vaverage[fastestUser][0] > 1){
+
+            if(netpositivev[fastestUser] ){
+                printf("net positive\n");
+                //printf("PRE - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
+                for( int i = 0; i <= steps; i++){
+
+                    if(r== 255.0 && b!= 255.0 && g== 0.0)  b++;
+                    if(r== 255.0 && b== 255.0 && g== 0.0) r--;
+                    if(r!= 255.0 && b== 255.0 && g== 0.0) r--;
+                    if(r==  0.0  && b== 255.0 && g!= 255.0) g++;
+                    if(r==  0.0  && b== 255.0 && g== 255.0) b--;
+                    if(r==  0.0  && b!= 255.0 && g== 255.0) b--;
+                    if(r!= 255.0 && b==  0.0  && g== 255.0) r++;
+                    if(r== 255.0 && b==  0.0  && g== 255.0) g--;
+                    if(r== 255.0 && b==  0.0  && g!= 0.0 ) g--;
+
+                }
+                //printf("POST - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
+            }
+
+            if(!netpositivev[fastestUser] ){
+                printf("userID: %d | net negative\n",fastestUser);
+                for( int i = 0; i <= steps; i++){
+
+                    if(r == 255.0 && b == 0.0 && g== 0.0) b--;
+                    if(r== 255.0 && b== 0.0 && g!= 255.0) g++;
+                    if(r!= 0.0 && b== 0.0 && g== 255.0) r--;
+                    if(r== 0.0 && b!= 255.0 && g== 255.0) b++;
+                    if(r== 0.0 && b== 255.0 && g!= 0.0) g--;
+                    if(r!= 255.0 && b== 255.0 && g== 0.0) r++;
+                }
+            }
+        }
+
         sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
         //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
-        //printf("%s",command); // used for debug
+        printf("%s",command); // used for debug
         system(command);
 
     }// end of kinect loop
-
 
     g_scriptNode.Release();
     g_UserGenerator.Release();
