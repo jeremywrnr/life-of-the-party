@@ -179,9 +179,6 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 // life of the color initialization
 
 int steps = 0;
-double avg_g = 0;
-double avg_b = 0;
-double avg_r = 255;
 double STEPCONST = 15.0;
 
 bool netpositivev[4];
@@ -271,6 +268,9 @@ int main()
     XnSkeletonJointTransformation rhand;
 
     char command[200];
+    double avg_g = 0;
+    double avg_b = 0;
+    double avg_r = 0;
 
     printf("Starting to run\n");
     if(g_bNeedPose) printf("Assume calibration pose\n");
@@ -383,15 +383,12 @@ int main()
                 vaverage[userID][i] = vaverage[userID][i - 1];
             };
 
-            //
-            if( userID == 0 ){
-                sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
-                //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
-                //printf("%s",command); // used for debug
-                system(command);
-            }
-
         } // end user for loop
+
+        sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+        //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
+        //printf("%s",command); // used for debug
+        system(command);
 
     }// end of kinect loop
 
