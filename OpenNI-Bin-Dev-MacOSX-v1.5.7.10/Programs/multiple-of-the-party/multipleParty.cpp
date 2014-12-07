@@ -377,18 +377,21 @@ int main()
             //printf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
 
             // shift over all user's vel. average hist
+            //printf("vaverage 0 %f", vaverage[userID][0]);
             for(int i = 5; i; i--){
                 //printf("vaverage %f, i: %d\n", vaverage[userID][i], i);
                 vaverage[userID][i] = vaverage[userID][i - 1];
             };
-            //printf("vaverage 0 %f", vaverage[userID][0]);
+
+            //
+            if( userID == 0 ){
+                sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+                //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
+                //printf("%s",command); // used for debug
+                system(command);
+            }
 
         } // end user for loop
-
-        sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
-        //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
-        //printf("%s",command); // used for debug
-        system(command);
 
     }// end of kinect loop
 
