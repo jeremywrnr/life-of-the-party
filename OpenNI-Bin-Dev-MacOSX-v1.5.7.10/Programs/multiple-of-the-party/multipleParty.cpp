@@ -315,7 +315,7 @@ int main()
 
             //Number of color steps is determined by velocity
             steps = (int)(vaverage[userID][0] * STEPCONST);
-            printf("steps = %d\n", steps);
+            //printf("steps = %d\n", steps);
 
 
             //COLOR SHIFTING ALGORITHIM
@@ -326,33 +326,15 @@ int main()
                     printf("net positive\n");
                     for( int i = 0; i <= steps; i++){
 
-                        if(r[userID]== 255.0 && b[userID]!= 255.0 && g[userID]== 0.0){
-                            b[userID]+=1.0;
-                        }
-                        if(r[userID]== 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                            r[userID]-=1.0;
-                        }
-                        if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                            r[userID]-=1.0;
-                        }
-                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 255.0){
-                            g[userID]+=1.0;
-                        }
-                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]== 255.0){
-                            b[userID]-=1.0;
-                        }
-                        if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
-                            b[userID]-=1.0;
-                        }
-                        if(r[userID]!= 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                            r[userID]+=1.0;
-                        }
-                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                            g[userID]-=1.0;
-                        }
-                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 0.0 ){
-                            g[userID]-=1.0;
-                        }
+                        if(r[userID]== 255.0 && b[userID]!= 255.0 && g[userID]== 0.0) b[userID]++;
+                        if(r[userID]== 255.0 && b[userID]== 255.0 && g[userID]== 0.0) r[userID]--;
+                        if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0) r[userID]--;
+                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 255.0) g[userID]++;
+                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]== 255.0) b[userID]--;
+                        if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0) b[userID]--;
+                        if(r[userID]!= 255.0 && b[userID]== 0.0 && g[userID]== 255.0) r[userID]++;
+                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]== 255.0) g[userID]--;
+                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 0.0 ) g[userID]--;
 
                     }
                 }
@@ -361,24 +343,12 @@ int main()
                     printf("userID: %d | net negative\n",userID);
                     for( int i = 0; i <= steps; i++){
 
-                        if(r[userID]== 255.0 && b[userID]!= 0.0 && g[userID]== 0.0){
-                            b[userID]-=1.0;
-                        }
-                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 255.0){
-                            g[userID]+=1.0;
-                        }
-                        if(r[userID]!= 0.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                            r[userID]-=1.0;
-                        }
-                        if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
-                            b[userID]+=1.0;
-                        }
-                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 0.0){
-                            g[userID]-=1.0;
-                        }
-                        if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                            r[userID]+=1.0;
-                        }
+                        if(r[userID]== 255.0 && b[userID]!= 0.0 && g[userID]== 0.0) b[userID]--;
+                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 255.0) g[userID]++;
+                        if(r[userID]!= 0.0 && b[userID]== 0.0 && g[userID]== 255.0) r[userID]--;
+                        if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0) b[userID]++;
+                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 0.0) g[userID]--;
+                        if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0) r[userID]++;
                     }
                 }
             }
