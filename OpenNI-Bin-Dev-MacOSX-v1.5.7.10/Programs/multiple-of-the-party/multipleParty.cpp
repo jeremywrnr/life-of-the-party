@@ -399,9 +399,9 @@ int main()
             }
         }
 
-        sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", avg_r/255, avg_g/255, avg_b/255);
+        sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", r/255, g/255, b/255);
         //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
-        printf("%s",command); // used for debug
+        printf("%s\n",command); // used for debug
         system(command);
 
     }// end of kinect loop
