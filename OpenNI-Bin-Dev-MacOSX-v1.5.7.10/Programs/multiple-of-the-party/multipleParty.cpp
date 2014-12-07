@@ -324,9 +324,8 @@ int main()
 
                 if(netpositivev[userID] ){
                     printf("net positive\n");
+                    printf("PRE - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
                     for( int i = 0; i <= steps; i++){
-
-                        printf("PRE - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
 
                         if(r[userID]== 255.0 && b[userID]!= 255.0 && g[userID]== 0.0) b[userID]++;
                         if(r[userID]== 255.0 && b[userID]== 255.0 && g[userID]== 0.0) r[userID]--;
@@ -338,9 +337,8 @@ int main()
                         if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]== 255.0) g[userID]--;
                         if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 0.0 ) g[userID]--;
 
-                        printf("POST - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
-
                     }
+                    printf("POST - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
                 }
 
                 if(!netpositivev[userID] ){
