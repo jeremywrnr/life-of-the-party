@@ -169,10 +169,10 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 }
 
 #define CHECK_RC(nRetVal, what)					    \
-if (nRetVal != XN_STATUS_OK)				    \
+    if (nRetVal != XN_STATUS_OK)				    \
 {								    \
-printf("%s failed: %s\n", what, xnGetStatusString(nRetVal));    \
-return nRetVal;						    \
+    printf("%s failed: %s\n", what, xnGetStatusString(nRetVal));    \
+    return nRetVal;						    \
 }
 
 /////////////////////////////////////
@@ -183,6 +183,7 @@ double avg_g = 0;
 double avg_b = 0;
 double avg_r = 255;
 
+bool netpositivev[4];
 double vaverage[4][5];
 double r[4], g[4], b[4] = {0,0,0,0};
 double lastx[4], lasty[4],lastz[4] = {0,0,0,0};
@@ -268,7 +269,6 @@ int main()
     XnSkeletonJointTransformation rhand;
 
     char command[200];
-    bool netpositivev[4];
     double STEPCONST = 15.0;
 
     printf("Starting to run\n");
@@ -319,61 +319,65 @@ int main()
 
             //COLOR SHIFTING ALGORITHIM
 
-            if(netpositivev[userID] && (vaverage[userID][0] > 1)){
-                printf("net positive\n");
-                for( int i = 0; i <= steps; i++){
+            if(vaverage[userID][0] > 1){
 
-                    if(r[userID]== 255.0 && b[userID]!= 255.0 && g[userID]== 0.0){
-                        b[userID]+=1.0;
-                    }
-                    if(r[userID]== 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                        r[userID]-=1.0;
-                    }
-                    if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                        r[userID]-=1.0;
-                    }
-                    if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 255.0){
-                        g[userID]+=1.0;
-                    }
-                    if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]== 255.0){
-                        b[userID]-=1.0;
-                    }
-                    if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
-                        b[userID]-=1.0;
-                    }
-                    if(r[userID]!= 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                        r[userID]+=1.0;
-                    }
-                    if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                        g[userID]-=1.0;
-                    }
-                    if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 0.0 ){
-                        g[userID]-=1.0;
+                if(netpositivev[userID] ){
+                    printf("net positive\n");
+                    for( int i = 0; i <= steps; i++){
+
+                        if(r[userID]== 255.0 && b[userID]!= 255.0 && g[userID]== 0.0){
+                            b[userID]+=1.0;
+                        }
+                        if(r[userID]== 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
+                            r[userID]-=1.0;
+                        }
+                        if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
+                            r[userID]-=1.0;
+                        }
+                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 255.0){
+                            g[userID]+=1.0;
+                        }
+                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]== 255.0){
+                            b[userID]-=1.0;
+                        }
+                        if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
+                            b[userID]-=1.0;
+                        }
+                        if(r[userID]!= 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
+                            r[userID]+=1.0;
+                        }
+                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]== 255.0){
+                            g[userID]-=1.0;
+                        }
+                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 0.0 ){
+                            g[userID]-=1.0;
+                        }
+
                     }
                 }
-            }
 
-            if(!netpositivev[userID] && (vaverage[userID][0] > 1)){
-                printf("userID: %d | net negative\n",userID);
-                for( int i = 0; i <= steps; i++){
+                if(!netpositivev[userID] )){
+                    printf("userID: %d | net negative\n",userID);
+                    for( int i = 0; i <= steps; i++){
 
-                    if(r[userID]== 255.0 && b[userID]!= 0.0 && g[userID]== 0.0){
-                        b[userID]-=1.0;
-                    }
-                    if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 255.0){
-                        g[userID]+=1.0;
-                    }
-                    if(r[userID]!= 0.0 && b[userID]== 0.0 && g[userID]== 255.0){
-                        r[userID]-=1.0;
-                    }
-                    if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
-                        b[userID]+=1.0;
-                    }
-                    if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 0.0){
-                        g[userID]-=1.0;
-                    }
-                    if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
-                        r[userID]+=1.0;
+                        if(r[userID]== 255.0 && b[userID]!= 0.0 && g[userID]== 0.0){
+                            b[userID]-=1.0;
+                        }
+                        if(r[userID]== 255.0 && b[userID]== 0.0 && g[userID]!= 255.0){
+                            g[userID]+=1.0;
+                        }
+                        if(r[userID]!= 0.0 && b[userID]== 0.0 && g[userID]== 255.0){
+                            r[userID]-=1.0;
+                        }
+                        if(r[userID]== 0.0 && b[userID]!= 255.0 && g[userID]== 255.0){
+                            b[userID]+=1.0;
+                        }
+                        if(r[userID]== 0.0 && b[userID]== 255.0 && g[userID]!= 0.0){
+                            g[userID]-=1.0;
+                        }
+                        if(r[userID]!= 255.0 && b[userID]== 255.0 && g[userID]== 0.0){
+                            r[userID]+=1.0;
+                        }
                     }
                 }
             }
@@ -383,12 +387,12 @@ int main()
             //jump will occur
 
             /*
-           if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
+               if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
                r[userID] = 255 - r[userID];
                g[userID] = 255 - g[userID];
                b[userID] = 255 - b[userID];
-           }
-           */
+               }
+               */
 
             // contribute a 1/nUsers to the overall light scheme
             avg_r += r[userID]/nUsers;
@@ -403,6 +407,7 @@ int main()
                 printf("vaverage %f, i: %d\n", vaverage[userID][i], i);
                 vaverage[userID][i] = vaverage[userID][i - 1];
             };
+            printf("vaverage[0] = %f", vaverage[userID][0]);
 
         } // end user for loop
 
