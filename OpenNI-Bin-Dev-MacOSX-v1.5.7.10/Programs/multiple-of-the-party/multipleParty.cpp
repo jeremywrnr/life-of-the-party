@@ -182,6 +182,7 @@ int steps = 0;
 double avg_g = 0;
 double avg_b = 0;
 double avg_r = 255;
+double STEPCONST = 15.0;
 
 bool netpositivev[4];
 double vaverage[4][5];
@@ -269,7 +270,6 @@ int main()
     XnSkeletonJointTransformation rhand;
 
     char command[200];
-    double STEPCONST = 15.0;
 
     printf("Starting to run\n");
     if(g_bNeedPose) printf("Assume calibration pose\n");
@@ -314,7 +314,8 @@ int main()
             //printf("vavergage change: %f %d\n", vaverage[userID][0], userID);
 
             //Number of color steps is determined by velocity
-            steps = vaverage[userID][0] * STEPCONST;
+            steps = (int)(vaverage[userID][0] * STEPCONST);
+            printf("steps = %d\n", steps);
 
 
             //COLOR SHIFTING ALGORITHIM
