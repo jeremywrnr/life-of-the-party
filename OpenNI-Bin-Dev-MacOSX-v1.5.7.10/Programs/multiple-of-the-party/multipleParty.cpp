@@ -181,9 +181,8 @@ UserCalibration_CalibrationComplete(xn::SkeletonCapability& /*capability*/,
 double avg_g = 0;
 double avg_b = 0;
 double avg_r = 0;
-double STEPCONST = 15.0;
-int steps, fastestUser;
-
+double STEPCONST = 14.0;
+int steps, fastestUser, jumpframegap;
 bool netpositivev[4];
 double vaverage[4][5];
 double r = 255;
@@ -270,10 +269,10 @@ int main()
     XnSkeletonJointTransformation lhand;
     XnSkeletonJointTransformation rhand;
 
-    fastestUser = 0;
+    
     char command[200];
-    double fastestSpeed = 0;
-
+    double fastestSpeed;
+    jumpframegap = 0;	
     printf("Starting to run\n");
     if(g_bNeedPose) printf("Assume calibration pose\n");
 
@@ -283,9 +282,11 @@ int main()
         nUsers=MAX_NUM_USERS;
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
-        //for(XnUInt16 userID=0; userID<3; userID++)
+	fastestSpeed = 0;
+   
         for(XnUInt16 userID=0; userID < nUsers; userID++)
-        {
+        {	
+
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[userID])==FALSE) continue;
             g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[userID],XN_SKEL_RIGHT_HAND, rhand);
 
@@ -311,64 +312,40 @@ int main()
             vaverage[userID][0] = ((distancechange[userID] + secondchange[userID]) * .001) / (.0667);
             secondchange[userID] = distancechange[userID];
 
-
-            // relative position debugging
-            //printf("distance change: %f %d\n", distancechange[userID], userID);
-            //printf("vavergage change: %f %d\n", vaverage[userID][0], userID);
-
-
             //determine the fastest user here
-            for(int i = userID; i; i--){
+          
                 if(vaverage[userID][0] > fastestSpeed){
                     fastestSpeed = vaverage[userID][0];
                     fastestUser = userID;
                 }
-            }
-
-
+            
 
             //COLOR JUMPING ALGORITHIM
             //If hand acceleration is greater than 2 m/s , complementary color
             //jump will occur
 
-            /*
-               if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
-               r[userID] = 255 - r[userID];
-               g[userID] = 255 - g[userID];
-               b[userID] = 255 - b[userID];
-               }
-               */
 
-            // contribute a 1/nUsers to the overall light scheme
-            //avg_r += r[userID]/nUsers;
-            //avg_g += g[userID]/nUsers;
-            //avg_b += b[userID]/nUsers;
+            
 
-            // print out user colors
-            //printf("id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
 
-            // option -  just add one light per person upto three
-
-            // shift over all user's vel. average hist
-            //printf("vaverage 0 %f", vaverage[userID][0]);
+            // shift over all user's vel. average history
             for(int i = 5; i; i--){
-                //printf("vaverage %f, i: %d\n", vaverage[userID][i], i);
+
                 vaverage[userID][i] = vaverage[userID][i - 1];
-            };
+            }
 
         } // end user for loop
 
         //Number of color steps is determined by velocity
         steps = (int)(vaverage[fastestUser][0] * STEPCONST);
-        //printf("steps = %d\n", steps);
 
         //COLOR SHIFTING ALGORITHIM
 
         if(vaverage[fastestUser][0] > 1){
 
             if(netpositivev[fastestUser] ){
-                printf("net positive\n");
-                //printf("PRE - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
+                printf("user %d net positive\n", fastestUser);
+
                 for( int i = 0; i <= steps; i++){
 
                     if(r== 255.0 && b!= 255.0 && g== 0.0)  b++;
@@ -382,11 +359,11 @@ int main()
                     if(r== 255.0 && b==  0.0  && g!= 0.0 ) g--;
 
                 }
-                //printf("POST - id: %d rgb: %f %f %f\n", userID, r[userID], g[userID], b[userID]);
+
             }
 
             if(!netpositivev[fastestUser] ){
-                printf("userID: %d | net negative\n",fastestUser);
+		printf("user %d net negative\n", fastestUser);
                 for( int i = 0; i <= steps; i++){
 
                     if(r == 255.0 && b == 0.0 && g== 0.0) b--;
@@ -397,11 +374,22 @@ int main()
                     if(r!= 255.0 && b== 255.0 && g== 0.0) r++;
                 }
             }
+		
+	    if(jumpframegap == 0){         
+         	   if(vaverage[fastestUser][0] - (vaverage[fastestUser][1] + vaverage[fastestUser][2]
+					 + vaverage[fastestUser][3] + vaverage[fastestUser][4])/4 > 2.2){
+
+         	      r = 255 - r;
+	              g = 255 - g;
+	              b = 255 - b;
+		      jumpframegap = 6;
+	              printf("JUMP*************************************************************\n");    
+		   }
+            }else{jumpframegap--;}   
+
         }
 
         sprintf(command, "python ../../../../LED-control/varcolor.py %f %f %f", r/255, g/255, b/255);
-        //printf("rgb: %f %f %f\n", avg_r, avg_g, avg_b);
-        printf("%s\n",command); // used for debug
         system(command);
 
     }// end of kinect loop
