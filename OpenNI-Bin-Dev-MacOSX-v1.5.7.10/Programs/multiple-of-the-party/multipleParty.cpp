@@ -25,9 +25,6 @@
  *  noted where they occur in the source. In accordance with Apache 2.0, the  *
  *  original licensce has been left intact below.                             *
  *                                                                            *
- *                                                                            *
- *                                                                            *
-
  ******************************************************************************
  *****************************************************************************
  *                                                                            *
@@ -85,8 +82,7 @@ XnBool fileExists(const char *fn)
 }
 
 // Callback: New user was detected
-void XN_CALLBACK_TYPE User_NewUser(xn::UserGenerator& /*generator*/, XnUserID
-        nId, void* /*pCookie*/)
+void XN_CALLBACK_TYPE User_NewUser(xn::UserGenerator& /*generator*/, XnUserID nId, void* /*pCookie*/)
 {
     XnUInt32 epochTime = 0;
     xnOSGetEpochTime(&epochTime);
@@ -105,8 +101,7 @@ void XN_CALLBACK_TYPE User_NewUser(xn::UserGenerator& /*generator*/, XnUserID
 
 
 // Callback: An existing user was lost
-void XN_CALLBACK_TYPE User_LostUser(xn::UserGenerator& /*generator*/, XnUserID
-        nId, void* /*pCookie*/)
+void XN_CALLBACK_TYPE User_LostUser(xn::UserGenerator& /*generator*/, XnUserID nId, void* /*pCookie*/)
 {
     XnUInt32 epochTime = 0;
     xnOSGetEpochTime(&epochTime);
@@ -388,12 +383,12 @@ int main()
             //jump will occur
 
             /*
-               if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
-               r = 255 - r;
-               g = 255 - g;
-               b = 255 - b;
-               }
-               */
+           if(vaverage - (vaveragetwo + vaveragethree + vaveragefour + vaveragefive)/4 > 2.5){
+               r[userID] = 255 - r[userID];
+               g[userID] = 255 - g[userID];
+               b[userID] = 255 - b[userID];
+           }
+           */
 
             // contribute a 1/nUsers to the overall light scheme
             avg_r += r[userID]/nUsers;
