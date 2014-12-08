@@ -269,10 +269,10 @@ int main()
     XnSkeletonJointTransformation lhand;
     XnSkeletonJointTransformation rhand;
 
-    
+
     char command[200];
     double fastestSpeed;
-    jumpframegap = 0;	
+    jumpframegap = 0;
     printf("Starting to run\n");
     if(g_bNeedPose) printf("Assume calibration pose\n");
 
@@ -283,9 +283,9 @@ int main()
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
 	fastestSpeed = 0;
-   
+
         for(XnUInt16 userID=0; userID < nUsers; userID++)
-        {	
+        {
 
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[userID])==FALSE) continue;
             g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[userID],XN_SKEL_RIGHT_HAND, rhand);
@@ -313,19 +313,19 @@ int main()
             secondchange[userID] = distancechange[userID];
 
             //determine the fastest user here
-          
+
                 if(vaverage[userID][0] > fastestSpeed){
                     fastestSpeed = vaverage[userID][0];
                     fastestUser = userID;
                 }
-            
+
 
             //COLOR JUMPING ALGORITHIM
             //If hand acceleration is greater than 2 m/s , complementary color
             //jump will occur
 
 
-            
+
 
 
             // shift over all user's vel. average history
@@ -366,7 +366,7 @@ int main()
 		printf("user %d net negative\n", fastestUser);
                 for( int i = 0; i <= steps; i++){
 
-                    if(r == 255.0 && b == 0.0 && g== 0.0) b--;
+                    if(r == 255.0 && b != 0.0 && g== 0.0) b--;
                     if(r== 255.0 && b== 0.0 && g!= 255.0) g++;
                     if(r!= 0.0 && b== 0.0 && g== 255.0) r--;
                     if(r== 0.0 && b!= 255.0 && g== 255.0) b++;
@@ -374,8 +374,8 @@ int main()
                     if(r!= 255.0 && b== 255.0 && g== 0.0) r++;
                 }
             }
-		
-	    if(jumpframegap == 0){         
+
+	    if(jumpframegap == 0){
          	   if(vaverage[fastestUser][0] - (vaverage[fastestUser][1] + vaverage[fastestUser][2]
 					 + vaverage[fastestUser][3] + vaverage[fastestUser][4])/4 > 2.2){
 
@@ -383,9 +383,9 @@ int main()
 	              g = 255 - g;
 	              b = 255 - b;
 		      jumpframegap = 6;
-	              printf("JUMP*************************************************************\n");    
+	              printf("JUMP*************************************************************\n");
 		   }
-            }else{jumpframegap--;}   
+            }else{jumpframegap--;}
 
         }
 
