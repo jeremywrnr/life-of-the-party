@@ -2,7 +2,7 @@ Life of the Party
 =================
 
 ([csc 212](http://www.cs.rochester.edu/courses/212/fall2014/index.php)) -
-([team](https://sites.google.com/a/u.rochester.edu/life-of-the-party/))
+([lotp team](https://sites.google.com/a/u.rochester.edu/life-of-the-party/))
 <!--[demo video](vimeo link)-->
 <!--[project video](vimeo link)-->
 
