@@ -324,15 +324,13 @@ int main()
             //If hand acceleration is greater than 2 m/s , complementary color
             //jump will occur
 
-
-
-
-
             // shift over all user's vel. average history
             for(int i = 5; i; i--){
 
                 vaverage[userID][i] = vaverage[userID][i - 1];
             }
+
+            printf("user %d velocity: %f\n", userID, vaverage[userID][0]);
 
         } // end user for loop
 
@@ -382,8 +380,8 @@ int main()
          	      r = 255 - r;
 	              g = 255 - g;
 	              b = 255 - b;
-		      jumpframegap = 6;
-	              printf("JUMP*************************************************************\n");
+                  jumpframegap = 10;
+	              printf("JUMP*****************************************************\n");
 		   }
             }else{jumpframegap--;}
 
