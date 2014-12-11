@@ -3,7 +3,8 @@ Life of the Party
 
 ([csc 212](http://www.cs.rochester.edu/courses/212/fall2014/index.php)) -
  ([lotp team](http://j.mp/life-of-the-party)) -
- ([demo video](http://vimeo.com/113805998))
+ ([proj video](http://j.mp/lifeparty-video)) -
+ ([dance demo](http://vimeo.com/113805998))
 
 Control the SaikoLED using the Kinect, making a fun, interactive light show
 based on your personal movements. Can respond dynamically to a dance routine,
@@ -28,6 +29,10 @@ Change one light manually (node in [3,4,5], rgb in [0,1]):
 Control the lights with the kinect:
 
     ./OpenNI-Bin-Dev-MacOSX-v1.5.7.10/Programs/Bin/x64-Release/Lifeoftheparty
+
+Control the lights with the kinect (multiple user support):
+
+    ./OpenNI-Bin-Dev-MacOSX-v1.5.7.10/Programs/Bin/x64-Release/MultipleParty
 
 Disconnect from the SaikoLED network:
 
