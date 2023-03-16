@@ -1,18 +1,14 @@
 Life of the Party
 =================
 
-([csc 212](http://www.cs.rochester.edu/courses/212/fall2014/index.php)) -
- ([lotp team](http://j.mp/life-of-the-party)) -
- ([proj video](http://j.mp/lifeparty-video)) -
- ([dance demo](http://vimeo.com/113805998))
-
 Control the SaikoLED using the Kinect, making a fun, interactive light show
 based on your personal movements. Can respond dynamically to a dance routine,
 or make your party that much more awesome. This was a project for CSC 212,
 Human Computer Interaction, at the University of Rochester in the fall of 2014.
 We developed this using OSX, compatability with other systems is not guaranteed.
 
-### [Project video](http://www.youtube.com/watch?v=YMS4McFrxyE)
+[[Project Video](http://www.youtube.com/watch?v=YMS4McFrxyE)]
+
 
 ### Example Controls
 
