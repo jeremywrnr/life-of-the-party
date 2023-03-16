@@ -12,9 +12,7 @@ or make your party that much more awesome. This was a project for CSC 212,
 Human Computer Interaction, at the University of Rochester in the fall of 2014.
 We developed this using OSX, compatability with other systems is not guaranteed.
 
-### Project video
-
-[![LOTP DEMO YO](http://img.youtube.com/vi/YMS4McFrxyE/0.jpg)](http://www.youtube.com/watch?v=YMS4McFrxyE)
+### [Project video](http://www.youtube.com/watch?v=YMS4McFrxyE)
 
 ### Example Controls
 
